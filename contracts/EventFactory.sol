@@ -13,8 +13,8 @@ contract EventFactory {
     mapping(address => mapping(address => bool)) public organizerVoters;
     mapping(EventType => EventInfo[]) public events;
 
-    uint256 orgFee = 0;
-    address payable ownerAddr;
+    uint256 public ownerFee = 0;
+    address payable public ownerAddr;
     uint256 ownerCredits;
 
     constructor() {
@@ -24,7 +24,7 @@ contract EventFactory {
     function createEvent(EventType _et, string memory _eventIpfsLink, string [] memory _sectorsName, uint256 [] memory _sectorsNoPlace,
                 bool [] memory _sectorsNumerable, uint256 [] memory _sectorsPrice) external payable {
           
-        if(msg.value < orgFee) 
+        if(msg.value < ownerFee) 
           revert InsufficientFounds();
 
         ownerCredits += msg.value;
@@ -47,7 +47,7 @@ contract EventFactory {
     function updateOrgFee(uint256 _newFee) external {
       if(msg.sender != ownerAddr)
         revert OnlyOwner();
-      orgFee = _newFee;
+      ownerFee = _newFee;
     }
 
     function withdrawOrgCredits() public {
