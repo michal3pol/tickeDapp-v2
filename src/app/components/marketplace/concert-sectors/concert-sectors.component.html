@@ -78,16 +78,11 @@
     Audience layout 
 </button>
 
-<ng-container *ngIf="selectedStandardTickets; else reselled">
+<ng-container *ngIf="selectedStandardTickets">
     <app-standard-ticket
     [concertAddress]="concertAddress"
     [sector]="selectedSector">
 
     </app-standard-ticket>
 </ng-container>
-<ng-template #reselled>
-    <app-reselled-ticket
-    [concertAddress]="concertAddress">
 
-    </app-reselled-ticket>
-</ng-template>

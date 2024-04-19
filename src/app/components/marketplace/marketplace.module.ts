@@ -17,7 +17,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { AudienceLayoutComponent } from './audience-layout/audience-layout.component';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { StandardTicketComponent } from './standard-ticket/standard-ticket.component';
-import { ReselledTicketComponent } from './reselled-ticket/reselled-ticket.component';
 import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
@@ -27,7 +26,6 @@ import { MatIconModule } from '@angular/material/icon';
     ConcertSectorsComponent,
     AudienceLayoutComponent,
     StandardTicketComponent,
-    ReselledTicketComponent
   ],
   imports: [
     BrowserModule,
