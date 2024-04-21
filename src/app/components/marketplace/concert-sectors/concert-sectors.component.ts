@@ -33,11 +33,12 @@ export class ConcertSectorsComponent implements OnInit {
 
   async ngOnInit() {
     this.concertAddress = this.route.snapshot.paramMap.get('address')!;
-    
-    this.sectors = await this.ticked1155Service.getSectors(this.concertAddress);
-    this.concertName = await this.ticked1155Service.getName(this.concertAddress);
-    this.concertDescription = await this.ticked1155Service.getDescription(this.concertAddress);
-    this.concertDate = await this.ticked1155Service.getDate(this.concertAddress);
+
+    // @TODO refactor with ipfs data
+    // this.sectors = await this.ticked1155Service.getSectors(this.concertAddress);
+    // this.concertName = await this.ticked1155Service.getName(this.concertAddress);
+    // this.concertDescription = await this.ticked1155Service.getDescription(this.concertAddress);
+    // this.concertDate = await this.ticked1155Service.getDate(this.concertAddress);
   }
 
   /**
@@ -54,12 +55,13 @@ export class ConcertSectorsComponent implements OnInit {
    * Function that shows dialog with layout  
    */
   async showLayout(){
-    const _image = await this.ticked1155Service.getImage(this.concertAddress);
-    let dialogRef = this.matDialog.open(AudienceLayoutComponent, {
-      maxHeight: '80%',
-      maxWidth: '80%',
-      data: { image: _image }
-    });
+    // @TODO 
+    // const _image = await this.ticked1155Service.getImage(this.concertAddress);
+    // let dialogRef = this.matDialog.open(AudienceLayoutComponent, {
+    //   maxHeight: '80%',
+    //   maxWidth: '80%',
+    //   data: { image: _image }
+    // });
   }
 
   // resells

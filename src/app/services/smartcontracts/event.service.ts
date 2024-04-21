@@ -14,35 +14,6 @@ export class EventService {
     private walletService: WalletService,
   ) { }
 
-
-  /**
-   * Function interacts with smartcontract and fires transaction to create and mint tokens
-   *
-   * @param address - Address of concert contract 
-   * @returns Status of transaction
-   * 
-   */
-  public async createAndMintTickets(address: string) {
-    const contract = await EventService.getContract(address, true)
-
-    const transaction = await contract['createAndMintTickets']()
-    const tx = await transaction.wait()
-
-    return tx.status === 1 
-  }
-
-  /**
-   * Function interacts with smartcontract and fires transaction to add sectors structure
-   *
-   * @param address - Address of concert contract 
-   * @param sectors - Structure of sectors 
-   * 
-   */  
-  public async addSectors(address: string, sectors: string[]) {
-    const contract = await EventService.getContract(address, true)
-    await contract['addSectors'](sectors)
-  }
-
   /**
    * Function interacts with smartcontract and fires transaction to buy ticket
    *
@@ -66,7 +37,7 @@ export class EventService {
    * Withdraws money for currently logged wallet
    * 
    */
-  public async withdraw(address: string){
+  public async withdrawOrgCredits(address: string){
     const contract = await EventService.getContract(address, true)
     try {
       return await contract['withdrawOrgCredits'](this.walletService.getWalletAddress())
@@ -89,44 +60,19 @@ export class EventService {
     return contract['isApprovedForAll'](account, operator)
   }
 
-  public async getImage(address: string): Promise<string>{
+  public async getUri(address: string, tokenId: number) {
     const contract = await EventService.getContract(address)
-    return contract['image']()
+    return contract['uri'](tokenId)
   }
 
-  public async getName(address: string): Promise<string> {
+  public async getOrgAddress(address: string): Promise<string> {
     const contract = await EventService.getContract(address)
-    return contract['name']()
+    return contract['orgAddress']()
   }
 
-  public async getDescription(address: string): Promise<string> {
+  public async getIpfsLink(address: string): Promise<string> {
     const contract = await EventService.getContract(address)
-    return contract['description']()
-  }
-
-  public async getDate(address: string): Promise<number> {
-    const contract = await EventService.getContract(address)
-    return contract['date']()
-  }
-
-  public async getSectors(address: string): Promise<Sector[]> {
-    const contract = await EventService.getContract(address)
-    return contract['getSectors']()
-  }
-
-  public async getSectorSoldIds(address: string, sector: string): Promise<BigNumber []> {
-    const contract = await EventService.getContract(address)
-    return contract['getSoldTokenIds'](sector)
-  }
-
-  public async getTicketAttr(address: string, tokenId: number): Promise<Ticket> {
-    const contract = await EventService.getContract(address)
-    return contract['ticketAttr'](tokenId)
-  }
-
-  public async setDate(address: string, newDate: number) {
-    const contract = await EventService.getContract(address, true)
-    await contract['setDate'](newDate)
+    return contract['ipfsLink']()
   }
 
   public async setApprovalForAll(address: string, operator: string, approved: boolean) {

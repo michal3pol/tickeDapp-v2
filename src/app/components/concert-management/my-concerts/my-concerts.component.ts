@@ -34,7 +34,8 @@ export class MyConcertsComponent implements OnInit {
    * 
    */
   public async mintTickets(contractAddress: string) {
-    this.ticked1155Service.createAndMintTickets(contractAddress)
+    // @TODO remove
+    // this.ticked1155Service.createAndMintTickets(contractAddress)
   }
 
   /**
@@ -45,7 +46,8 @@ export class MyConcertsComponent implements OnInit {
    * 
    */
   addSectors(sectors: string[], address: string) {
-    this.ticked1155Service.addSectors(address, sectors)
+    // @TODO remove
+    // this.ticked1155Service.addSectors(address, sectors)
   }
 
    /**
@@ -55,19 +57,7 @@ export class MyConcertsComponent implements OnInit {
    * 
    */
   withdraw(concertAddress: string) {
-    this.ticked1155Service.withdraw(concertAddress);
+    this.ticked1155Service.withdrawOrgCredits(concertAddress);
   }
 
-   /**
-   * Changes date of concert for specified contract
-   *
-   * @param contractAddress - Address of concert contract
-   *  
-   */
-  changeDate(concertAddress: string) {
-    if(this.newDate != undefined) {
-      const newDateUnix = (new Date(this.newDate!)).getTime() / 1000;
-      this.ticked1155Service.setDate(concertAddress, newDateUnix);
-    }
-  }
 }
