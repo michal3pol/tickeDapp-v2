@@ -11,7 +11,7 @@ import { DepConcert } from 'src/types/concert.model';
 export class ConcertSellComponent implements OnInit {
 
   constructor(
-    private tickedFactoryService: EventFactoryService,
+    private eventFactoryService: EventFactoryService,
     private router: Router,
   ) { }
 

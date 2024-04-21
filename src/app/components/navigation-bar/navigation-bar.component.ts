@@ -13,7 +13,7 @@ export class NavigationBarComponent {
 
   constructor(
     private walletService: WalletService,
-    private tickedFactoryService: EventFactoryService,
+    private eventFactoryService: EventFactoryService,
     private router: Router,
     private snackbarService: SnackbarService,
   ) { }
@@ -46,23 +46,6 @@ export class NavigationBarComponent {
   async goToMyConcerts() {
     const navigationDetails: string[] = ['/my-concerts'];
     this.router.navigate(navigationDetails);
-  }
-
-  /**
-   * Function that redirects to admin panel page
-   *
-   */
-  async goToAdminPanel() {
-    const isOwner: boolean = await this.tickedFactoryService.validateOwner(
-      await this.walletService.getWalletAddress()
-    )
-    
-    if(isOwner){
-      const navigationDetails: string[] = ['/whitelist'];
-      this.router.navigate(navigationDetails);
-    } else {
-      this.snackbarService.error("Access not authorized!")
-    }
   }
 
   /**

@@ -20,7 +20,7 @@ export class CreateConcertComponent implements OnInit {
 
 
   constructor(
-    private tickedFactoryService: EventFactoryService,
+    private eventFactoryService: EventFactoryService,
     private formBuilder: FormBuilder,
   ) { }
 
