@@ -14,7 +14,6 @@ import { MyConcertsComponent } from './my-concerts/my-concerts.component';
 import {MatStepperModule} from '@angular/material/stepper';
 import { SectorComponent } from './sector/sector.component';
 import { MatIconModule } from '@angular/material/icon';
-import { WhitelistComponent } from './whitelist/whitelist.component';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 
 
@@ -22,8 +21,7 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
   declarations: [
     CreateConcertComponent,
     MyConcertsComponent,
-    SectorComponent,
-    WhitelistComponent
+    SectorComponent
   ],
   imports: [
     CommonModule,

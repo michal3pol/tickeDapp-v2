@@ -34,17 +34,9 @@ export class NavigationBarComponent {
    *
    */
   async goToConcertForm() {
-    const authorization: boolean = await this.tickedFactoryService.authorizeAccess(
-      await this.walletService.getWalletAddress()
-      );
-
-    if(authorization) {
-      const navigationDetails: string[] = ['/create-concert'];
-      this.router.navigate(navigationDetails);
-    } else {
-      this.snackbarService.error("Access not authorized!")
-      return;
-    }
+    const navigationDetails: string[] = ['/create-concert'];
+    this.router.navigate(navigationDetails);
+    this.snackbarService.error("Access not authorized!")
   }
 
   /**
@@ -52,17 +44,8 @@ export class NavigationBarComponent {
    *
    */
   async goToMyConcerts() {
-    const authorization: boolean = await this.tickedFactoryService.authorizeAccess(
-      await this.walletService.getWalletAddress()
-      );
-
-    if(authorization) {
-      const navigationDetails: string[] = ['/my-concerts'];
-      this.router.navigate(navigationDetails);
-    } else {
-      this.snackbarService.error("Access not authorized!")
-      return;
-    }
+    const navigationDetails: string[] = ['/my-concerts'];
+    this.router.navigate(navigationDetails);
   }
 
   /**

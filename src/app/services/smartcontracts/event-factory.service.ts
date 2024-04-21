@@ -13,17 +13,6 @@ export class EventFactoryService {
   constructor() { }
 
   /**
-   * Function interacts with smartcontract and fires transaction to authorize offer for address
-   *
-   * @param address - Address of wallet (granted organizer) 
-   * 
-   */
-  public async authorizeAccess(address: string): Promise<boolean> {
-    const contract = await EventFactoryService.getContract();
-    return contract['whitelist'](address);  
-  }
-
-  /**
    * Function interacts with smartcontract and fires transaction to create new concert contract
    *
    * @param name - Name of concert
