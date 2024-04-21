@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SnackbarService } from 'src/app/services/snackbar.service';
-import { TickedFactoryService } from 'src/app/services/smartcontracts/ticked-factory.service';
+import { EventFactoryService } from 'src/app/services/smartcontracts/event-factory.service';
 
 @Component({
   selector: 'app-whitelist',
@@ -14,7 +14,7 @@ export class WhitelistComponent {
   protected checkAddress!: string;
 
   constructor(
-    private tickedFactoryService: TickedFactoryService,
+    private tickedFactoryService: EventFactoryService,
     private snackbarService: SnackbarService,
   ) { }
 

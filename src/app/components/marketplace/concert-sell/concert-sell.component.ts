@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { TickedFactoryService } from 'src/app/services/smartcontracts/ticked-factory.service';
+import { EventFactoryService } from 'src/app/services/smartcontracts/event-factory.service';
 import { DepConcert } from 'src/types/concert.model';
 
 @Component({
@@ -11,7 +11,7 @@ import { DepConcert } from 'src/types/concert.model';
 export class ConcertSellComponent implements OnInit {
 
   constructor(
-    private tickedFactoryService: TickedFactoryService,
+    private tickedFactoryService: EventFactoryService,
     private router: Router,
   ) { }
 

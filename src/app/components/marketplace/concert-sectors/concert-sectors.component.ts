@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { Ticked1155Service } from 'src/app/services/smartcontracts/ticked1155.service';
 import { Sector, Ticket } from 'src/types/concert.model';
 import { AudienceLayoutComponent } from '../audience-layout/audience-layout.component';
+import { EventService } from 'src/app/services/smartcontracts/event.service';
 
 @Component({
   selector: 'app-concert-sectors',
@@ -26,7 +26,7 @@ export class ConcertSectorsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private ticked1155Service: Ticked1155Service,
+    private ticked1155Service: EventService,
     private matDialog: MatDialog,
   ) { }
 

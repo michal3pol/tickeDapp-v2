@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 
 import { BigNumber, ethers } from "ethers";
 import { Sector, Ticket } from 'src/types/concert.model';
-import ticked1155 from '../../../../artifacts/contracts/tickeD1155.sol/tickeD1155.json'
+import Event from '../../../../artifacts/contracts//Event.sol/Event.json'
 import { WalletService } from '../wallet.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class Ticked1155Service {
+export class EventService {
 
   constructor(
     private walletService: WalletService,
@@ -23,7 +23,7 @@ export class Ticked1155Service {
    * 
    */
   public async createAndMintTickets(address: string) {
-    const contract = await Ticked1155Service.getContract(address, true)
+    const contract = await EventService.getContract(address, true)
 
     const transaction = await contract['createAndMintTickets']()
     const tx = await transaction.wait()
@@ -39,7 +39,7 @@ export class Ticked1155Service {
    * 
    */  
   public async addSectors(address: string, sectors: string[]) {
-    const contract = await Ticked1155Service.getContract(address, true)
+    const contract = await EventService.getContract(address, true)
     await contract['addSectors'](sectors)
   }
 
@@ -53,7 +53,7 @@ export class Ticked1155Service {
    * 
    */
   public async buyTicket(address: string, tokenId: number, price: BigNumber, amount = 1) {
-    const contract = await Ticked1155Service.getContract(address, true)
+    const contract = await EventService.getContract(address, true)
     const transaction = await contract['buyTicket'](tokenId, amount, {
       value: ethers.utils.parseUnits((price.mul(amount)).toString(), "wei")
     })
@@ -67,7 +67,7 @@ export class Ticked1155Service {
    * 
    */
   public async withdraw(address: string){
-    const contract = await Ticked1155Service.getContract(address, true)
+    const contract = await EventService.getContract(address, true)
     try {
       return await contract['withdrawOrgCredits'](this.walletService.getWalletAddress())
     } catch(e: any) {
@@ -85,52 +85,52 @@ export class Ticked1155Service {
    * 
    */
   public async isApprovedForAll(address: string, account: string, operator: string): Promise<boolean>{
-    const contract = await Ticked1155Service.getContract(address)
+    const contract = await EventService.getContract(address)
     return contract['isApprovedForAll'](account, operator)
   }
 
   public async getImage(address: string): Promise<string>{
-    const contract = await Ticked1155Service.getContract(address)
+    const contract = await EventService.getContract(address)
     return contract['image']()
   }
 
   public async getName(address: string): Promise<string> {
-    const contract = await Ticked1155Service.getContract(address)
+    const contract = await EventService.getContract(address)
     return contract['name']()
   }
 
   public async getDescription(address: string): Promise<string> {
-    const contract = await Ticked1155Service.getContract(address)
+    const contract = await EventService.getContract(address)
     return contract['description']()
   }
 
   public async getDate(address: string): Promise<number> {
-    const contract = await Ticked1155Service.getContract(address)
+    const contract = await EventService.getContract(address)
     return contract['date']()
   }
 
   public async getSectors(address: string): Promise<Sector[]> {
-    const contract = await Ticked1155Service.getContract(address)
+    const contract = await EventService.getContract(address)
     return contract['getSectors']()
   }
 
   public async getSectorSoldIds(address: string, sector: string): Promise<BigNumber []> {
-    const contract = await Ticked1155Service.getContract(address)
+    const contract = await EventService.getContract(address)
     return contract['getSoldTokenIds'](sector)
   }
 
   public async getTicketAttr(address: string, tokenId: number): Promise<Ticket> {
-    const contract = await Ticked1155Service.getContract(address)
+    const contract = await EventService.getContract(address)
     return contract['ticketAttr'](tokenId)
   }
 
   public async setDate(address: string, newDate: number) {
-    const contract = await Ticked1155Service.getContract(address, true)
+    const contract = await EventService.getContract(address, true)
     await contract['setDate'](newDate)
   }
 
   public async setApprovalForAll(address: string, operator: string, approved: boolean) {
-    const contract = await Ticked1155Service.getContract(address, true)
+    const contract = await EventService.getContract(address, true)
     contract['setApprovalForAll'](operator, approved)
   }  
 
@@ -140,7 +140,7 @@ export class Ticked1155Service {
 
     return new ethers.Contract(
       address,
-      ticked1155.abi,
+      Event.abi,
       bySigner ? signer : provider
     )
   }

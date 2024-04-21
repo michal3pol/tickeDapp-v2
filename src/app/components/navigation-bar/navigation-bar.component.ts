@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { SnackbarService } from 'src/app/services/snackbar.service';
-import { TickedFactoryService } from 'src/app/services/smartcontracts/ticked-factory.service';
+import { EventFactoryService } from 'src/app/services/smartcontracts/event-factory.service';
 import { WalletService } from 'src/app/services/wallet.service';
 
 @Component({
@@ -13,7 +13,7 @@ export class NavigationBarComponent {
 
   constructor(
     private walletService: WalletService,
-    private tickedFactoryService: TickedFactoryService,
+    private tickedFactoryService: EventFactoryService,
     private router: Router,
     private snackbarService: SnackbarService,
   ) { }

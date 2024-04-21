@@ -3,12 +3,12 @@ import { ethers } from "ethers";
 import { environment } from 'src/environments/environment';
 import { DepConcert } from 'src/types/concert.model';
 
-import tickeDFactory from '../../../../artifacts/contracts/tickeDFactory.sol/tickeDFactory.json'
+import EventFactory from '../../../../artifacts/contracts/EventFactory.sol/EventFactory.json'
 
 @Injectable({
   providedIn: 'root'
 })
-export class TickedFactoryService {
+export class EventFactoryService {
 
   constructor() { }
 
@@ -19,7 +19,7 @@ export class TickedFactoryService {
    * 
    */
   public async authorizeAccess(address: string): Promise<boolean> {
-    const contract = await TickedFactoryService.getContract();
+    const contract = await EventFactoryService.getContract();
     return contract['whitelist'](address);  
   }
 
@@ -36,7 +36,7 @@ export class TickedFactoryService {
   public async createConcertContract(
     name: string, desc: string, date: Number, image: string, sectors: string[] ){
     
-    const contract = await TickedFactoryService.getContract(true)
+    const contract = await EventFactoryService.getContract(true)
     const transaction = await contract['createEvent'](
       name, desc, date, image, sectors)
     const tx = await transaction.wait()
@@ -51,7 +51,7 @@ export class TickedFactoryService {
    * 
    */
   public async validateOwner(address: string): Promise<boolean> {
-    const contract = await TickedFactoryService.getContract()
+    const contract = await EventFactoryService.getContract()
     return address === await contract['owner']()
   }
 
@@ -63,17 +63,17 @@ export class TickedFactoryService {
    * 
    */
   public async setOrganizatorPermission(address: string, toggle: boolean) {
-    const contract = await TickedFactoryService.getContract(true)
+    const contract = await EventFactoryService.getContract(true)
     contract['setOrganizatorPermission'](address, toggle)
   }
 
   public async getOrganizers() {
-    const contract = await TickedFactoryService.getContract()
+    const contract = await EventFactoryService.getContract()
     return contract['getOrganizers']()
   }
 
   public async getDepContracts(address: string): Promise<DepConcert[]> {
-    const contract = await TickedFactoryService.getContract()
+    const contract = await EventFactoryService.getContract()
     return contract['getDepContracts'](address)
   }
 
@@ -82,8 +82,8 @@ export class TickedFactoryService {
     const signer = provider.getSigner()
 
     return new ethers.Contract(
-      environment.contractTickeDFactoryAddress,
-      tickeDFactory.abi,
+      environment.contractEventFactoryAddress,
+      EventFactory.abi,
       bySigner ? signer : provider
     )
   }

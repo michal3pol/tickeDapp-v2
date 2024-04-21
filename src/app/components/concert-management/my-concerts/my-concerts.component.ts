@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { TickedFactoryService } from 'src/app/services/smartcontracts/ticked-factory.service';
-import { Ticked1155Service } from 'src/app/services/smartcontracts/ticked1155.service';
+import { EventFactoryService } from 'src/app/services/smartcontracts/event-factory.service';
+import { EventService } from 'src/app/services/smartcontracts/event.service';
 import { WalletService } from 'src/app/services/wallet.service';
 import { DepConcert } from 'src/types/concert.model';
 
@@ -12,9 +12,9 @@ import { DepConcert } from 'src/types/concert.model';
 export class MyConcertsComponent implements OnInit {
 
   constructor(
-    private tickedFactoryService: TickedFactoryService,
+    private tickedFactoryService: EventFactoryService,
     private walletService: WalletService,
-    private ticked1155Service: Ticked1155Service,
+    private ticked1155Service: EventService,
   ) { }
 
   public deployedConcerts: DepConcert[] = [];

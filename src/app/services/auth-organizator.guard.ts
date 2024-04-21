@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import { TickedFactoryService } from 'src/app/services/smartcontracts/ticked-factory.service';
+import { EventFactoryService } from 'src/app/services/smartcontracts/event-factory.service';
 import { WalletService } from './wallet.service';
 
 @Injectable({
@@ -10,7 +10,7 @@ import { WalletService } from './wallet.service';
 export class AuthOrganizatorGuard implements CanActivate {
   
   constructor(
-    private tickedFactoryService: TickedFactoryService,
+    private tickedFactoryService: EventFactoryService,
     private walletService: WalletService,
   ) {}
   

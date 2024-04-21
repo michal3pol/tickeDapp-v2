@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { BigNumber } from 'ethers';
-import { Ticked1155Service } from 'src/app/services/smartcontracts/ticked1155.service';
+import { EventService } from 'src/app/services/smartcontracts/event.service';
 import { Sector, Ticket } from 'src/types/concert.model';
 
 @Component({
@@ -17,7 +17,7 @@ export class StandardTicketComponent implements OnChanges {
   amount = 1;
 
   constructor(
-    private ticked1155Service: Ticked1155Service,
+    private ticked1155Service: EventService,
   ) { }
   
   async ngOnChanges(changes: SimpleChanges) {
