@@ -36,7 +36,6 @@ export class NavigationBarComponent {
   async goToConcertForm() {
     const navigationDetails: string[] = ['/create-concert'];
     this.router.navigate(navigationDetails);
-    this.snackbarService.error("Access not authorized!")
   }
 
   /**

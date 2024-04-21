@@ -17,3 +17,21 @@ export enum EventType {
     Family,
     Virtual
 }
+
+export interface EventData {
+    name: string;
+    description: string;
+    image?: string;
+    date: Date;
+    sectors: SectorData[];
+}
+
+export interface SectorData {
+    name: string;
+    numerableSeats: boolean;
+    seatsFrom?: number;
+    seatsTo: number;
+    price: number;
+}
+
+

@@ -38,18 +38,6 @@ export class MyConcertsComponent implements OnInit {
     // this.ticked1155Service.createAndMintTickets(contractAddress)
   }
 
-  /**
-   * Add sectors for specified contract
-   *
-   * @param address - Address of concert contract
-   * @param sectors - list of new sectors
-   * 
-   */
-  addSectors(sectors: string[], address: string) {
-    // @TODO remove
-    // this.ticked1155Service.addSectors(address, sectors)
-  }
-
    /**
    * Withdraws money for specified contract
    *

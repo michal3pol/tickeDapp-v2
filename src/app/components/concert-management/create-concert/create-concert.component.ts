@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { EventFactoryService } from 'src/app/services/smartcontracts/event-factory.service';
+import { EventData, SectorData } from 'src/types/event.model';
 
 @Component({
   selector: 'app-create-concert',
@@ -9,7 +10,7 @@ import { EventFactoryService } from 'src/app/services/smartcontracts/event-facto
 })
 export class CreateConcertComponent implements OnInit {
 
-  concertSectors: string [] = [];
+  concertSectors: SectorData [] = [];
 
   commonInf = this.formBuilder.group({
     concertName: ['', Validators.required],
@@ -36,6 +37,9 @@ export class CreateConcertComponent implements OnInit {
   public async createConcert() {
     let stringTime = this.commonInf.get('concertDate')?.getRawValue().toString();
     let unixTimestamp = (new Date(stringTime!)).getTime() / 1000;
+
+    this.createIpfsData();
+
     // @TODO 
     // this.tickedFactoryService.createConcertContract(
     //   this.commonInf.get('concertName')?.getRawValue(),
@@ -46,11 +50,23 @@ export class CreateConcertComponent implements OnInit {
     // )
   }
 
+  createIpfsData() {  
+    let eventData: EventData = {
+      name: this.commonInf.get('concertName')?.getRawValue(),
+      description: this.commonInf.get('concertDescription')?.getRawValue(),
+      date: this.commonInf.get('concertDate')?.getRawValue(),
+      sectors: this.concertSectors
+    } 
+
+    
+  }
+
   /**
    * Function that add sectors to concert informations
    */
-  addSectors(sectors: string[]) {
+  addSectors(sectors: SectorData[]) {
     this.concertSectors = sectors
   }
+  
 
 }
