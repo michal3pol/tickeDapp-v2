@@ -20,10 +20,11 @@ export class ConcertSellComponent implements OnInit {
   public searchText = '';
 
   async ngOnInit() {
-    this.concertOrg = await this.tickedFactoryService.getOrganizers();
-    for (let org of this.concertOrg) {
-      this.concerts = this.concerts.concat(await this.tickedFactoryService.getDepContracts(org));
-    }
+    // @TODO fetch data properly 
+    // this.concertOrg = await this.tickedFactoryService.getOrganizers();
+    // for (let org of this.concertOrg) {
+    //   this.concerts = this.concerts.concat(await this.tickedFactoryService.getDepContracts(org));
+    // }
   }
 
   /**

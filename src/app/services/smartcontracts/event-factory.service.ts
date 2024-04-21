@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ethers } from "ethers";
 import { environment } from 'src/environments/environment';
-import { DepConcert } from 'src/types/concert.model';
-
 import EventFactory from '../../../../artifacts/contracts/EventFactory.sol/EventFactory.json'
+import { EventInfo, EventType, RateScore } from 'src/types/event.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +12,7 @@ export class EventFactoryService {
   constructor() { }
 
   /**
-   * Function interacts with smartcontract and fires transaction to create new concert contract
+   * Function interacts with smartcontract and fires transaction to create new event contract
    *
    * @param name - Name of concert
    * @param desc - Description of concert 
@@ -22,12 +21,12 @@ export class EventFactoryService {
    * @param sectors - Structure of sectors 
    * @returns Status of transaction
    */
-  public async createConcertContract(
-    name: string, desc: string, date: Number, image: string, sectors: string[] ){
+  public async createEventContract( eventType: EventType, ipfsLink: string, sectorsName: string[], sectorsNoPlace: number[], 
+    sectorsNumerable: boolean[], sectorsPrice: number[] ) {
     
     const contract = await EventFactoryService.getContract(true)
     const transaction = await contract['createEvent'](
-      name, desc, date, image, sectors)
+      eventType, ipfsLink, sectorsName, sectorsNoPlace, sectorsNumerable, sectorsPrice)
     const tx = await transaction.wait()
 
     return tx.status === 1
@@ -41,7 +40,12 @@ export class EventFactoryService {
    */
   public async validateOwner(address: string): Promise<boolean> {
     const contract = await EventFactoryService.getContract()
-    return address === await contract['owner']()
+    return address === await contract['ownerAddr']()
+  }
+
+  public async rateOrganizer(orgAddress: string, vote: boolean) {
+    const contract = await EventFactoryService.getContract()
+    contract['rateOrganizer'](orgAddress, vote)
   }
 
   /**
@@ -51,19 +55,24 @@ export class EventFactoryService {
    * @param toggle - Toggle for specifying permissions (true/false)
    * 
    */
-  public async setOrganizatorPermission(address: string, toggle: boolean) {
+  public async updateOrgFee(newOrgFee: number) {
     const contract = await EventFactoryService.getContract(true)
-    contract['setOrganizatorPermission'](address, toggle)
+    contract['updateOrgFee'](newOrgFee)
   }
 
-  public async getOrganizers() {
-    const contract = await EventFactoryService.getContract()
-    return contract['getOrganizers']()
+  public async withdrawOrgCredits() {
+    const contract = await EventFactoryService.getContract(true)
+    contract['withdrawOrgCredits']()
   }
 
-  public async getDepContracts(address: string): Promise<DepConcert[]> {
+  public async getEventsByType(eventType: EventType): Promise<EventInfo> {
     const contract = await EventFactoryService.getContract()
-    return contract['getDepContracts'](address)
+    return contract['getEventsByType'](eventType)
+  }
+
+  public async getOrganizerScore(address: string): Promise<RateScore> {
+    const contract = await EventFactoryService.getContract()
+    return contract['getOrganizerScore'](address)
   }
 
   private static async getContract(bySigner= false) {

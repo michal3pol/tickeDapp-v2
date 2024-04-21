@@ -36,13 +36,14 @@ export class CreateConcertComponent implements OnInit {
   public async createConcert() {
     let stringTime = this.commonInf.get('concertDate')?.getRawValue().toString();
     let unixTimestamp = (new Date(stringTime!)).getTime() / 1000;
-    this.tickedFactoryService.createConcertContract(
-      this.commonInf.get('concertName')?.getRawValue(),
-      this.commonInf.get('concertDescription')?.getRawValue(),
-      unixTimestamp,
-      this.commonInf.get('concertImage')?.getRawValue(),
-      this.concertSectors
-    )
+    // @TODO 
+    // this.tickedFactoryService.createConcertContract(
+    //   this.commonInf.get('concertName')?.getRawValue(),
+    //   this.commonInf.get('concertDescription')?.getRawValue(),
+    //   unixTimestamp,
+    //   this.commonInf.get('concertImage')?.getRawValue(),
+    //   this.concertSectors
+    // )
   }
 
   /**

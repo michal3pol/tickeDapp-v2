@@ -21,8 +21,10 @@ export class MyConcertsComponent implements OnInit {
   public newDate!: Date;
 
   async ngOnInit() {
-    this.deployedConcerts = await this.tickedFactoryService.getDepContracts(
-      await this.walletService.getWalletAddress() )
+    // @TODO
+    // this.deployedConcerts = await this.tickedFactoryService.getDepContracts(
+    //   await this.walletService.getWalletAddress())
+    this.deployedConcerts = [];
   }
 
   /**
