@@ -1,56 +1,40 @@
 
-// SCRIPT FOR RUNNING ON TESTNETS - GOERLI
+// SCRIPT FOR RUNNING ON TESTNETS
 
 const main = async () => {
 
-  const [owner] = await ethers.getSigners();
+  // const [owner] = await ethers.getSigners();
 
-    const nftContractFactory = await hre.ethers.getContractFactory('tickeDFactory', {
-      libraries: {
-        Base64: "0xA838A27DC8EEa77ad676Ae0C2c52c36Adf82C69f",
-        Cast: "0xE8d24b027574ba4c351a61216Bd748f6eC54CC19",
-      }
-    });
-
-    //const nftContractFactory = await hre.ethers.getContractFactory('tickeDFactory', {libraries: {Base64: "0xA838A27DC8EEa77ad676Ae0C2c52c36Adf82C69f",Cast: "0xE8d24b027574ba4c351a61216Bd748f6eC54CC19",}});
-
-    const st = ["A1","0","0","10","1","1000000000000000","A2","1","1","5","1","1000000000000000","C5","1","1","4","0","10000000000000000"];
+    const nftContractFactory = await hre.ethers.getContractFactory('EventFactory');
 
     const nftContract = await nftContractFactory.deploy();
     await nftContract.deployed();
     console.log("Contract deployed to:", nftContract.address);
     
-    // add to whitelist
-    let access = await nftContract.setOrganizatorPermission(owner.address, true);
-    await access.wait();
-
-    const unixTime = 1669492800; // Sat Nov 26 2022 21:00:00 GMT+0100 (czas środkowoeuropejski standardowy)
+    const unixTime = 1718985600; // Fri Jun 21 2024 18:00:00 GMT+0200 (czas środkowoeuropejski letni)
 
     //let txn = await nftContract.createEvent("Initial concert from run!", "First concert of aaa in aaa!", 1669495020, st );
     //await txn.wait();
     let image = "https://bafkreiajmvoddrzqjupncsvhyyqdphmz3nrztglogtotimizqm7jhsmqza.ipfs.nftstorage.link/"
-    let txn = await nftContract.createEvent("Test concert!", "First concert of test in Warsaw!", unixTime, image, st );
+
+    sectorsName = ["A1", "B1"];
+    sectorsNoPlace = [12, 15];
+    sectorsNumerable = [0, 1];
+    sectorsPrice = [500, 111];
+
+    let txn = await nftContract.createEvent(1, "ipfsLINK.blabla", sectorsName, sectorsNoPlace, sectorsNumerable, sectorsPrice);
     await txn.wait();
     
-    let adr = await nftContract.getDepContracts(owner.address);
-    console.log("Address subcontract " + adr[0].contractAddress);
-    console.log("Name subcontract " + adr[0].name);
+    let eventInfo = await nftContract.getEventsByType(1);
+    console.log("event info " + eventInfo);
+    console.log("Subcontract address cls" + eventInfo[0].eventAddress);
 
     // deployed nft smartcontract
-    const subcontractFactory = await hre.ethers.getContractFactory('tickeD1155', {
-        libraries: {
-          Base64: "0xA838A27DC8EEa77ad676Ae0C2c52c36Adf82C69f",
-          Cast: "0xE8d24b027574ba4c351a61216Bd748f6eC54CC19",
-        }
-    });
-    // const subcontractFactory = await hre.ethers.getContractFactory('tickeD1155', {libraries: {Base64: "0xA838A27DC8EEa77ad676Ae0C2c52c36Adf82C69f",Cast: "0xE8d24b027574ba4c351a61216Bd748f6eC54CC19",}});
+    const subcontractFactory = await hre.ethers.getContractFactory('Event');
 
-    const subcontract = await subcontractFactory.attach(adr[0].contractAddress);
-    let txn2 = await subcontract.createAndMintTickets();
-    await txn2.wait();
-
-    let sectors = await subcontract.getSectors();
-    console.log(sectors);
+    const subcontract = await subcontractFactory.attach(eventInfo[0].eventAddress);
+    let uri0 = await subcontract.uri(0);
+    console.log(uri0)
 
   };
 

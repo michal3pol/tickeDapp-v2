@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable, tap } from 'rxjs';
 import { AlchemyApiService } from 'src/app/services/alchemy-api.service';
-import { Ticked1155Service } from 'src/app/services/smartcontracts/ticked1155.service';
+import { EventService } from 'src/app/services/smartcontracts/event.service';
 import { NFT, OwnedNFTs } from 'src/types/nft.model';
 
 @Component({
@@ -18,7 +18,7 @@ export class MyNftComponent implements OnInit {
   constructor(
     private alchemyApiService: AlchemyApiService,
     private matDialog: MatDialog,
-    private ticked1155Service: Ticked1155Service,
+    private ticked1155Service: EventService,
   ) { }
 
   async ngOnInit() {

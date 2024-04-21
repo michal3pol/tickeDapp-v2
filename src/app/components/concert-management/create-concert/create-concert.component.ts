@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { TickedFactoryService } from 'src/app/services/smartcontracts/ticked-factory.service';
+import { EventFactoryService } from 'src/app/services/smartcontracts/event-factory.service';
 
 @Component({
   selector: 'app-create-concert',
@@ -20,7 +20,7 @@ export class CreateConcertComponent implements OnInit {
 
 
   constructor(
-    private tickedFactoryService: TickedFactoryService,
+    private tickedFactoryService: EventFactoryService,
     private formBuilder: FormBuilder,
   ) { }
 
@@ -36,13 +36,14 @@ export class CreateConcertComponent implements OnInit {
   public async createConcert() {
     let stringTime = this.commonInf.get('concertDate')?.getRawValue().toString();
     let unixTimestamp = (new Date(stringTime!)).getTime() / 1000;
-    this.tickedFactoryService.createConcertContract(
-      this.commonInf.get('concertName')?.getRawValue(),
-      this.commonInf.get('concertDescription')?.getRawValue(),
-      unixTimestamp,
-      this.commonInf.get('concertImage')?.getRawValue(),
-      this.concertSectors
-    )
+    // @TODO 
+    // this.tickedFactoryService.createConcertContract(
+    //   this.commonInf.get('concertName')?.getRawValue(),
+    //   this.commonInf.get('concertDescription')?.getRawValue(),
+    //   unixTimestamp,
+    //   this.commonInf.get('concertImage')?.getRawValue(),
+    //   this.concertSectors
+    // )
   }
 
   /**

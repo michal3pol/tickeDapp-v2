@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { SnackbarService } from 'src/app/services/snackbar.service';
-import { TickedFactoryService } from 'src/app/services/smartcontracts/ticked-factory.service';
+import { EventFactoryService } from 'src/app/services/smartcontracts/event-factory.service';
 import { WalletService } from 'src/app/services/wallet.service';
 
 @Component({
@@ -13,7 +13,7 @@ export class NavigationBarComponent {
 
   constructor(
     private walletService: WalletService,
-    private tickedFactoryService: TickedFactoryService,
+    private tickedFactoryService: EventFactoryService,
     private router: Router,
     private snackbarService: SnackbarService,
   ) { }
@@ -34,17 +34,9 @@ export class NavigationBarComponent {
    *
    */
   async goToConcertForm() {
-    const authorization: boolean = await this.tickedFactoryService.authorizeAccess(
-      await this.walletService.getWalletAddress()
-      );
-
-    if(authorization) {
-      const navigationDetails: string[] = ['/create-concert'];
-      this.router.navigate(navigationDetails);
-    } else {
-      this.snackbarService.error("Access not authorized!")
-      return;
-    }
+    const navigationDetails: string[] = ['/create-concert'];
+    this.router.navigate(navigationDetails);
+    this.snackbarService.error("Access not authorized!")
   }
 
   /**
@@ -52,17 +44,8 @@ export class NavigationBarComponent {
    *
    */
   async goToMyConcerts() {
-    const authorization: boolean = await this.tickedFactoryService.authorizeAccess(
-      await this.walletService.getWalletAddress()
-      );
-
-    if(authorization) {
-      const navigationDetails: string[] = ['/my-concerts'];
-      this.router.navigate(navigationDetails);
-    } else {
-      this.snackbarService.error("Access not authorized!")
-      return;
-    }
+    const navigationDetails: string[] = ['/my-concerts'];
+    this.router.navigate(navigationDetails);
   }
 
   /**

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { TickedFactoryService } from 'src/app/services/smartcontracts/ticked-factory.service';
-import { Ticked1155Service } from 'src/app/services/smartcontracts/ticked1155.service';
+import { EventFactoryService } from 'src/app/services/smartcontracts/event-factory.service';
+import { EventService } from 'src/app/services/smartcontracts/event.service';
 import { WalletService } from 'src/app/services/wallet.service';
 import { DepConcert } from 'src/types/concert.model';
 
@@ -12,17 +12,19 @@ import { DepConcert } from 'src/types/concert.model';
 export class MyConcertsComponent implements OnInit {
 
   constructor(
-    private tickedFactoryService: TickedFactoryService,
+    private tickedFactoryService: EventFactoryService,
     private walletService: WalletService,
-    private ticked1155Service: Ticked1155Service,
+    private ticked1155Service: EventService,
   ) { }
 
   public deployedConcerts: DepConcert[] = [];
   public newDate!: Date;
 
   async ngOnInit() {
-    this.deployedConcerts = await this.tickedFactoryService.getDepContracts(
-      await this.walletService.getWalletAddress() )
+    // @TODO
+    // this.deployedConcerts = await this.tickedFactoryService.getDepContracts(
+    //   await this.walletService.getWalletAddress())
+    this.deployedConcerts = [];
   }
 
   /**
@@ -32,7 +34,8 @@ export class MyConcertsComponent implements OnInit {
    * 
    */
   public async mintTickets(contractAddress: string) {
-    this.ticked1155Service.createAndMintTickets(contractAddress)
+    // @TODO remove
+    // this.ticked1155Service.createAndMintTickets(contractAddress)
   }
 
   /**
@@ -43,7 +46,8 @@ export class MyConcertsComponent implements OnInit {
    * 
    */
   addSectors(sectors: string[], address: string) {
-    this.ticked1155Service.addSectors(address, sectors)
+    // @TODO remove
+    // this.ticked1155Service.addSectors(address, sectors)
   }
 
    /**
@@ -53,19 +57,7 @@ export class MyConcertsComponent implements OnInit {
    * 
    */
   withdraw(concertAddress: string) {
-    this.ticked1155Service.withdraw(concertAddress);
+    this.ticked1155Service.withdrawOrgCredits(concertAddress);
   }
 
-   /**
-   * Changes date of concert for specified contract
-   *
-   * @param contractAddress - Address of concert contract
-   *  
-   */
-  changeDate(concertAddress: string) {
-    if(this.newDate != undefined) {
-      const newDateUnix = (new Date(this.newDate!)).getTime() / 1000;
-      this.ticked1155Service.setDate(concertAddress, newDateUnix);
-    }
-  }
 }
