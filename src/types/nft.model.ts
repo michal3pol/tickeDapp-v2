@@ -1,3 +1,20 @@
+export interface NftEventMetadata {
+    name: string
+    description: string
+    image?: string
+    date: Date
+}
+
+export interface NftTicketMetadata {
+    sector: string;
+    tokenId: number
+    price: string
+    seatNo?: number
+    numerable: boolean
+}
+
+
+/// @TODO check for refactor 
 export interface Contract {
     address: string
 }

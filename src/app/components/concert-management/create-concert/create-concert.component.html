@@ -52,11 +52,18 @@
         <button mat-button matStepperPrevious>Back</button>
     </mat-step>
     <mat-step label="Create concert smartcontract!">
+        <div>
+            <mat-form-field appearance="fill"
+                class="form-full-width"
+            >
+                <mat-label>Your IPFS api key:</mat-label>
+                <input matInput placeholder="Ipfs api key" [formControl]="ipfsApiKey">
+            </mat-form-field>
+        </div>
         <mat-icon class="red-icon">warning</mat-icon>
         <div class="info-achtung">
             <b>
                 Make sure that all data provider in previous tabs is correct! <br>
-                Informations cannot be changed in future - except date.
             </b>
         </div>
         <button mat-raised-button color="primary" class="btn-log-in" 

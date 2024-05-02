@@ -31,7 +31,7 @@ export interface SectorData {
     numerableSeats: boolean;
     seatsFrom?: number;
     seatsTo: number;
-    price: number;
+    price: string;
 }
 
 

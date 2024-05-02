@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { NftStorageService } from 'src/app/services/nft-storage.service';
 import { EventFactoryService } from 'src/app/services/smartcontracts/event-factory.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 import { EventData, SectorData } from 'src/types/event.model';
 
 @Component({
@@ -14,15 +16,18 @@ export class CreateConcertComponent implements OnInit {
 
   commonInf = this.formBuilder.group({
     concertName: ['', Validators.required],
-    concertDescription: ['', Validators.required, Validators.minLength(8)],
+    concertDescription: ['', [Validators.required, Validators.minLength(8)]],
     concertDate: ['', Validators.required],
     concertImage: ['', Validators.required],
   })
 
+  ipfsApiKey = new FormControl('', [Validators.required]);
 
   constructor(
     private eventFactoryService: EventFactoryService,
     private formBuilder: FormBuilder,
+    private nftStorageService: NftStorageService,
+    private snackbarService: SnackbarService
   ) { }
 
   ngOnInit(): void {
@@ -38,19 +43,23 @@ export class CreateConcertComponent implements OnInit {
     let stringTime = this.commonInf.get('concertDate')?.getRawValue().toString();
     let unixTimestamp = (new Date(stringTime!)).getTime() / 1000;
 
-    this.createIpfsData();
-
-    // @TODO 
-    // this.tickedFactoryService.createConcertContract(
-    //   this.commonInf.get('concertName')?.getRawValue(),
-    //   this.commonInf.get('concertDescription')?.getRawValue(),
-    //   unixTimestamp,
-    //   this.commonInf.get('concertImage')?.getRawValue(),
-    //   this.concertSectors
-    // )
+    if(this.ipfsApiKey.value){
+      const ipfsLink = await this.createIpfsData(this.ipfsApiKey.value);
+      console.log(ipfsLink)
+ 
+      // this.eventFactoryService.createEventContract(
+      //   this.commonInf.get('concertName')?.getRawValue(),
+      //   this.commonInf.get('concertDescription')?.getRawValue(),
+      //   unixTimestamp,
+      //   this.commonInf.get('concertImage')?.getRawValue(),
+      //   this.concertSectors
+      // )
+    } else {
+      this.snackbarService.error("Provide ipfs api key!")
+    }
   }
 
-  createIpfsData() {  
+  createIpfsData(apiKey: string) {  
     let eventData: EventData = {
       name: this.commonInf.get('concertName')?.getRawValue(),
       description: this.commonInf.get('concertDescription')?.getRawValue(),
@@ -58,7 +67,7 @@ export class CreateConcertComponent implements OnInit {
       sectors: this.concertSectors
     } 
 
-    
+    return this.nftStorageService.storeAtIpfs(eventData, apiKey);
   }
 
   /**

@@ -61,10 +61,11 @@ export class SectorComponent {
         const newSector: SectorData = {
           name: sector.sectorName,
           numerableSeats: sector.isNumerable,
-          seatsFrom: sector.seatStart,
-          seatsTo: sector.seatStop,
-          price: EtherUnitConverter.etherToWei(sector.price).toNumber()
+          seatsFrom: parseInt(sector.seatStart),
+          seatsTo: parseInt(sector.seatStop),
+          price: EtherUnitConverter.etherToWei(sector.price).toString()
         }
+        sectorsArray.push(newSector);
     }
     this.sectorsEvent.emit(sectorsArray);
   }
