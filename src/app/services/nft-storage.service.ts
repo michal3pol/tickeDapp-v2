@@ -4,6 +4,7 @@ import { NFTStorage } from "nft.storage";
 import { EventData } from 'src/types/event.model';
 import { NftEventMetadata } from 'src/types/nft.model';
 import NftMetadataUtil from '../utils/NftMetadataUtil';
+import { Observable } from 'rxjs';
 
 const HTTP_PREFIX = "https://";
 const IPFS_SUFIX = ".ipfs.nftstorage.link/";
@@ -60,5 +61,9 @@ export class NftStorageService {
 
   getFromStorage(url: string, id: number ){
     return this.http.get(url + '/' + id + '.json')
+  }
+
+  getStorageConcertInfo(url: string): Observable<EventData>{
+    return this.http.get<EventData>(url + '/0.json')
   }
 }

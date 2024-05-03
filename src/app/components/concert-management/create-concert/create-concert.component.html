@@ -8,15 +8,28 @@
                     class="form-full-width"
                 >
                     <mat-label>Name</mat-label>
-                    <input matInput placeholder="Concert name" formControlName="concertName">
+                    <input matInput placeholder="Event name" formControlName="concertName">
                 </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field>
+                    <mat-label>Event type</mat-label>
+                    <mat-select placeholder="Event name" formControlName="eventType">
+                        <ng-container *ngFor="let enum of eventTypes | keyvalue">
+                            <!-- Filter numerical values of keyvalue (enums were duplicated) -->
+                            <mat-option *ngIf="!enum.value.toFixed" [value]="enum.key">
+                                 {{enum.value}} 
+                              </mat-option>
+                        </ng-container>
+                    </mat-select>
+                  </mat-form-field>
             </div>
             <div>
                 <mat-form-field appearance="fill"
                     class="form-full-width"
                 >
                     <mat-label>Description</mat-label>
-                    <textarea matInput placeholder="Concert description" formControlName="concertDescription" >
+                    <textarea matInput placeholder="Event description" formControlName="concertDescription" >
                     </textarea>
                 </mat-form-field>
             </div>
@@ -34,7 +47,7 @@
                     class="form-full-width"
                 >
                     <mat-label>Date</mat-label>
-                    <input matInput type="datetime-local" placeholder="Concert date" formControlName="concertDate">
+                    <input matInput type="datetime-local" placeholder="Event date" formControlName="concertDate">
                 </mat-form-field>
             </div>
         </form>

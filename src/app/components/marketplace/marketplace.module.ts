@@ -18,6 +18,7 @@ import { AudienceLayoutComponent } from './audience-layout/audience-layout.compo
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { StandardTicketComponent } from './standard-ticket/standard-ticket.component';
 import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatDialogModule,
     MatInputModule,
     MatIconModule,
+    MatListModule,
     RouterModule,
     SwiperModule,
     FormsModule,

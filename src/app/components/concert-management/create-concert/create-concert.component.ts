@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { NftStorageService } from 'src/app/services/nft-storage.service';
 import { EventFactoryService } from 'src/app/services/smartcontracts/event-factory.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
-import { EventData, SectorData } from 'src/types/event.model';
+import { EventData, EventType, SectorData } from 'src/types/event.model';
 
 @Component({
   selector: 'app-create-concert',
@@ -13,12 +13,14 @@ import { EventData, SectorData } from 'src/types/event.model';
 export class CreateConcertComponent implements OnInit {
 
   concertSectors: SectorData [] = [];
+  eventTypes = EventType
 
   commonInf = this.formBuilder.group({
     concertName: ['', Validators.required],
     concertDescription: ['', [Validators.required, Validators.minLength(8)]],
     concertDate: ['', Validators.required],
     concertImage: ['', Validators.required],
+    eventType: ['', Validators.required],
   })
 
   ipfsApiKey = new FormControl('', [Validators.required]);
@@ -40,22 +42,30 @@ export class CreateConcertComponent implements OnInit {
    * Function that creates structure of information based on provided data in forms
    */
   public async createConcert() {
-    let stringTime = this.commonInf.get('concertDate')?.getRawValue().toString();
-    let unixTimestamp = (new Date(stringTime!)).getTime() / 1000;
-
     if(this.ipfsApiKey.value){
       const ipfsLink = await this.createIpfsData(this.ipfsApiKey.value);
-      console.log(ipfsLink)
- 
-      // this.eventFactoryService.createEventContract(
-      //   this.commonInf.get('concertName')?.getRawValue(),
-      //   this.commonInf.get('concertDescription')?.getRawValue(),
-      //   unixTimestamp,
-      //   this.commonInf.get('concertImage')?.getRawValue(),
-      //   this.concertSectors
-      // )
+      
+      let sectorsName: string[] = [], sectorsNoPlace: number[] = [], 
+        sectorsNumerable: boolean[] = [], sectorsPrice: string[] = [];
+
+      this.concertSectors.forEach(sector => {
+        sectorsName.push(sector.name)
+        sectorsNumerable.push(sector.numerableSeats)
+        sectorsNoPlace.push(sector.numerableSeats ? 
+            sector.seatsTo - (sector.seatsFrom as number ) + 1 : sector.seatsTo)
+        sectorsPrice.push(sector.price)
+      })
+
+      this.eventFactoryService.createEventContract(
+        this.commonInf.get('eventType')?.getRawValue(),
+        ipfsLink,
+        sectorsName,
+        sectorsNoPlace,
+        sectorsNumerable,
+        sectorsPrice
+      )
     } else {
-      this.snackbarService.error("Provide ipfs api key!")
+      this.snackbarService.error("Provide IPFS api key!")
     }
   }
 

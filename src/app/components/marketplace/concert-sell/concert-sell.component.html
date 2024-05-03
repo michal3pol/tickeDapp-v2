@@ -10,23 +10,35 @@
         </button>
     </mat-form-field>
 </div>
-
-<div class="concert-container">
-    <a *ngFor="let concert of concerts | filterConcerts: searchText"
-        [routerLink]="[concert.contractAddress]"
-        >
-        <mat-card class="concert" >
-            <mat-card-header>
-            <mat-card-title>{{concert.name}}</mat-card-title>
-            <mat-card-subtitle>{{concert.contractAddress}}</mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content class="concert-content">
-                <mat-card-actions>
-                    <button mat-raised-button color="primary"
-                        class="btn-details"
-                    > Click here to see more details &#8594;</button>
-                </mat-card-actions>
-            </mat-card-content>
-        </mat-card>
-    </a>
+<div class="events">
+    <div class="type-selection">
+        <mat-selection-list multiple="false" [(ngModel)]="selectedType" (ngModelChange)="onSelectedTypeChange($event)">
+            <ng-container *ngFor="let eventType of eventTypes | keyvalue">
+                <!-- Filter numerical values of keyvalue (enums were duplicated) -->
+                <mat-list-option *ngIf="!eventType.value.toFixed" [value]="eventType.key">
+                    {{eventType.value}}
+                </mat-list-option>
+            </ng-container>
+        </mat-selection-list>
+    </div>
+    
+    <div class="concert-container">
+        <a *ngFor="let event of events"
+            [routerLink]="[event.eventAddress]"
+            >
+            <mat-card class="concert" >
+                <mat-card-header>
+                <mat-card-title>{{event.name}} {{event.date | date:'medium'}} </mat-card-title>
+                <mat-card-subtitle>{{event.eventAddress}}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content class="concert-content">
+                    <mat-card-actions>
+                        <button mat-raised-button color="primary"
+                            class="btn-details"
+                        > Click here to see more details &#8594;</button>
+                    </mat-card-actions>
+                </mat-card-content>
+            </mat-card>
+        </a>
+    </div>
 </div>

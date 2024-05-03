@@ -24,6 +24,7 @@ export interface EventData {
     image?: string;
     date: Date;
     sectors: SectorData[];
+    eventAddress?: string;
 }
 
 export interface SectorData {
