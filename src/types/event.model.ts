@@ -21,7 +21,7 @@ export enum EventType {
 export interface EventData {
     name: string;
     description: string;
-    image?: string;
+    image: string;
     date: Date;
     sectors: SectorData[];
     eventAddress?: string;

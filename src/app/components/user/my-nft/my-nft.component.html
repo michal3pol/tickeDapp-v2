@@ -24,7 +24,7 @@
                             <b> Concert informations: </b>
                             <ng-container *ngFor="let attr of nft.metadata.attributes">
                                 <ng-container *ngIf="attr.trait_type === 'Date'">
-                                    <div> Date: {{ attr.value * 1000 | date:'medium' }}</div>
+                                    <div> Date: {{ attr.value | date:'medium' }}</div>
                                 </ng-container>
                                 <ng-container *ngIf="attr.trait_type === 'Sector'">
                                     <div> Sector: {{ attr.value }}</div>

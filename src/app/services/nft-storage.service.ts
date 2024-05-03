@@ -27,7 +27,7 @@ export class NftStorageService {
       name: eventData.name,
       description: eventData.description,
       date: eventData.date,
-      image: eventData?.image
+      image: eventData.image
     } 
 
 
@@ -49,7 +49,7 @@ export class NftStorageService {
         }
       } else {
         // non numerable tickets
-        files.push(this.nftMetadataUtil.createSectorTicketMetadataJson(
+        files.push(this.nftMetadataUtil.createTicketMetadataJson(
           nftEventMetadata,sector, id));
           id++;
       }

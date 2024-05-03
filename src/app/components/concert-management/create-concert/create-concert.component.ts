@@ -74,7 +74,8 @@ export class CreateConcertComponent implements OnInit {
       name: this.commonInf.get('concertName')?.getRawValue(),
       description: this.commonInf.get('concertDescription')?.getRawValue(),
       date: this.commonInf.get('concertDate')?.getRawValue(),
-      sectors: this.concertSectors
+      sectors: this.concertSectors,
+      image: this.commonInf.get('concertImage')?.getRawValue()
     } 
 
     return this.nftStorageService.storeAtIpfs(eventData, apiKey);
