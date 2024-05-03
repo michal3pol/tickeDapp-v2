@@ -25,6 +25,7 @@ export interface EventData {
     date: Date;
     sectors: SectorData[];
     eventAddress?: string;
+    ipfsLink?: string;
 }
 
 export interface SectorData {

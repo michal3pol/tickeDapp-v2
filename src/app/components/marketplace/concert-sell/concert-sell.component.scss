@@ -28,11 +28,12 @@
     float: right;
 }
 
-a {
-    text-decoration: none;
-}
 .search {
     text-align: center;
+}
+
+mat-card {
+    max-height: 150px;
 }
 
 .search-field {

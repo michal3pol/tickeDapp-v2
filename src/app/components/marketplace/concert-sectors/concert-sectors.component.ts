@@ -1,9 +1,12 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Sector, Ticket } from 'src/types/concert.model';
 import { AudienceLayoutComponent } from '../audience-layout/audience-layout.component';
 import { EventService } from 'src/app/services/smartcontracts/event.service';
+import { EventData, SectorData } from 'src/types/event.model';
+import { NftStorageService } from 'src/app/services/nft-storage.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-concert-sectors',
@@ -11,35 +14,42 @@ import { EventService } from 'src/app/services/smartcontracts/event.service';
   styleUrls: ['./concert-sectors.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class ConcertSectorsComponent implements OnInit {
+export class ConcertSectorsComponent {
 
   concertAddress!: string;
   sectors: Sector[] = [];
   concertName: string = '';
   concertDescription: string = '';
-  concertDate!: number;
+  concertDate!: Date;
 
   selectedSector!: Sector;
   ticketsMap: Map<number, Ticket> = new Map<number, Ticket>;
   amount = 1;
   selectedStandardTickets: boolean = true;
+  eventData$: Observable<EventData> = new Observable(observer => {
+    if(window.history.state.eventData) {
+      observer.next(window.history.state.eventData);
+      observer.complete();
+    } else {
+      const ipfsQueryParam = this.route.snapshot.queryParamMap.get('ipfs');
+        if (ipfsQueryParam) {
+          this.nftStorageService.getStorageConcertInfo(ipfsQueryParam).subscribe(
+            data => {
+              observer.next(data);
+              observer.complete();
+            }
+          );
+        }
+    }
+  }) 
 
   constructor(
-    private route: ActivatedRoute,
-    private ticked1155Service: EventService,
+    private eventService: EventService,
     private matDialog: MatDialog,
+    private route: ActivatedRoute,
+    private nftStorageService: NftStorageService
   ) { }
 
-
-  async ngOnInit() {
-    this.concertAddress = this.route.snapshot.paramMap.get('address')!;
-
-    // @TODO refactor with ipfs data
-    // this.sectors = await this.ticked1155Service.getSectors(this.concertAddress);
-    // this.concertName = await this.ticked1155Service.getName(this.concertAddress);
-    // this.concertDescription = await this.ticked1155Service.getDescription(this.concertAddress);
-    // this.concertDate = await this.ticked1155Service.getDate(this.concertAddress);
-  }
 
   /**
    * Function that changes currently chosen sector 
@@ -48,7 +58,7 @@ export class ConcertSectorsComponent implements OnInit {
    */
   selectSector(index: number) {
     this.selectedStandardTickets = true;
-    this.selectedSector = this.sectors[index];
+    // this.selectedSector = this.sectors[index];
   }
 
   /**
@@ -63,13 +73,4 @@ export class ConcertSectorsComponent implements OnInit {
     //   data: { image: _image }
     // });
   }
-
-  // resells
-  /**
-   * Function that toggles for resellers offers  
-   */
-  resellersOffers() {
-    this.selectedStandardTickets = false;
-  }
-
 }

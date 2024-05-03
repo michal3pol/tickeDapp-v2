@@ -13,7 +13,10 @@ export class WeiToEthPipe implements PipeTransform {
    * @returns Price in string
    *
    */
-  transform(price: BigNumber): string {
+  transform(price: BigNumber | string): string {
+    if(typeof(price) === 'string'){
+      price = BigNumber.from(price)
+    }
     return ethers.utils.formatEther(price)
   }
 

@@ -39,7 +39,8 @@ export class ConcertSellComponent implements OnInit {
         ipfsResponse => this.events.push(
           {
             ...ipfsResponse,
-            eventAddress: info.eventAddress
+            eventAddress: info.eventAddress,
+            ipfsLink: info.descLink
           }
         )
       )
@@ -52,8 +53,11 @@ export class ConcertSellComponent implements OnInit {
    * @param contractAddress - Address of concert contract 
    * 
    */
-  goToConcert(eventAddress: string) {
-    this.router.navigate(['sell', eventAddress]);
+  goToEvent(event: EventData) {
+    this.router.navigate(['marketplace/sell', event.eventAddress], {
+      queryParams: {ipfs: event.ipfsLink},
+      state: { eventData: event }
+    });
   }
 
 }

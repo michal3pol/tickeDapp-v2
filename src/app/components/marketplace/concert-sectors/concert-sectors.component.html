@@ -1,77 +1,63 @@
-<div class="info">
-    <h2 class="concert-name">
-        {{ concertName }}
-        <span class="concert-date">
-            <mat-icon>today</mat-icon>
-            {{ concertDate * 1000 | date:'medium' }}
-        </span>
-    </h2>
-    <h4 class="concert-description">
-        {{ concertDescription }}
-    </h4>
-</div>
-<swiper
-    [slidesPerView]="5"
-    [spaceBetween]="20"
-    [navigation]="true"
-    [pagination]="{
-      clickable: true
-    }"
-    [scrollbar]="{
-        hide: true
-    }"
-    class="mySwiper"
-    >
-    <ng-template swiperSlide 
-        *ngFor="let sector of sectors; let i=index">
-        <mat-card class="sector"
-            (click)="selectSector(i)">
-            <div class="sector-header">
-                <mat-card-title>{{sector.name}}</mat-card-title>
-                <mat-card-subtitle>
-                    <ng-container *ngIf="sector.isNumerable; else notNumerated">
-                        <div> Capacity: {{sector.availableTokenIds.length}} </div>
+<ng-container *ngIf="eventData$ | async as eventData ">
+    <div class="info">
+        <h2 class="concert-name">
+            {{ eventData.name }}
+            <span class="concert-date">
+                <mat-icon>today</mat-icon>
+                {{ eventData.date | date:'medium' }}
+            </span>
+        </h2>
+        <h4 class="concert-description">
+            {{ eventData.description }}
+        </h4>
+    </div>
+    <swiper
+        [slidesPerView]="5"
+        [spaceBetween]="20"
+        [navigation]="true"
+        [pagination]="{
+        clickable: true
+        }"
+        [scrollbar]="{
+            hide: true
+        }"
+        class="mySwiper"
+        >
+        <ng-template swiperSlide 
+            *ngFor="let sector of eventData.sectors; let i=index">
+            <mat-card class="sector"
+                (click)="selectSector(i)">
+                <div class="sector-header">
+                    <mat-card-title>{{sector.name}}</mat-card-title>
+                    <mat-card-subtitle>
+                        <ng-container *ngIf="sector.numerableSeats && sector.seatsFrom; else notNumerated">
+                            <div> Capacity: {{sector.seatsTo - sector.seatsFrom + 1}} </div>
+                        </ng-container>
+                        <ng-template #notNumerated>
+                            <div> Capacity: {{ sector.seatsTo }} </div>
+                        </ng-template>
+                    </mat-card-subtitle>
+                </div>
+                <mat-card-content class="sector-content">
+                    <div> Ticket price: {{ sector.price | weiToEth }} ETH </div>
+                    <ng-container *ngIf="sector.numerableSeats; else notNumerated">
+                        <div> Seats from {{ sector.seatsFrom }} to {{ sector.seatsTo }} </div>
                     </ng-container>
                     <ng-template #notNumerated>
-                        <div> Capacity: {{ sector.seatStop }} </div>
+                        <div> Capacity: {{ sector.seatsTo }} </div>
                     </ng-template>
-                </mat-card-subtitle>
-            </div>
-            <mat-card-content class="sector-content">
-                <div> Ticket price: {{ sector.price | weiToEth }} ETH </div>
-                <ng-container *ngIf="sector.isNumerable; else notNumerated">
-                    <div> Seats from {{ sector.seatStart }} to {{ sector.seatStop }} </div>
-                </ng-container>
-                <ng-template #notNumerated>
-                    <div> Capacity: {{ sector.seatStop }} </div>
-                </ng-template>
-            <!-- 
-                <mat-card-actions>
-                    <button mat-raised-button color="primary"
-                        class="btn-details"
-                    > Tickets &#8595;</button>
-                </mat-card-actions> 
-            -->
-            </mat-card-content>
-        </mat-card>
-    </ng-template> 
-    <!-- RESELLER OFFERS -->
-    <ng-template swiperSlide>
-        <mat-card class="sector"
-            (click)="resellersOffers()">
-            <div class="sector-header">
-                <mat-card-title>
-                    RESELLERS OFFERS
-                </mat-card-title>
-            </div>
-            <mat-card-content class="sector-content">
-                Check offers from other people
-            </mat-card-content>
-        </mat-card>
-    </ng-template>
-
-
-</swiper>
+                <!-- 
+                    <mat-card-actions>
+                        <button mat-raised-button color="primary"
+                            class="btn-details"
+                        > Tickets &#8595;</button>
+                    </mat-card-actions> 
+                -->
+                </mat-card-content>
+            </mat-card>
+        </ng-template> 
+    </swiper>
+</ng-container>
 
 <button mat-button
     (click)="showLayout()">
@@ -85,4 +71,3 @@
 
     </app-standard-ticket>
 </ng-container>
-
