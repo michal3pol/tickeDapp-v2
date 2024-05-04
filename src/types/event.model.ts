@@ -34,6 +34,7 @@ export interface SectorData {
     seatsFrom?: number;
     seatsTo: number;
     price: string;
+    tokenIds?: number[];
 }
 
 

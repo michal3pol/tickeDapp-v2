@@ -16,11 +16,11 @@ export interface NftTicketMetadata {
 }
 export interface Attribute {
     trait_type: string;
-    value: string | number | Date;
+    value: string | number;
     display_type?: string;
 }
 
-export const enum TRAIT_TYPE {
+export enum TRAIT_TYPE {
     SECTOR = 'Sector',
     TOKEN_ID = 'Token Id',
     PRICE = 'Price',

@@ -11,6 +11,9 @@
             {{ eventData.description }}
         </h4>
     </div>
+    <div class="organizer-info">
+
+    </div>
     <swiper
         [slidesPerView]="5"
         [spaceBetween]="20"
@@ -57,16 +60,15 @@
             </mat-card>
         </ng-template> 
     </swiper>
-</ng-container>
 
-<button mat-button
+    <button mat-button
     (click)="showLayout()">
-    Audience layout 
-</button>
+        Audience layout 
+    </button>
 
-<ng-container *ngIf="selectedStandardTickets">
     <app-standard-ticket
-    [concertAddress]="concertAddress"
+    [eventAddress]="eventData.eventAddress!"
+    [ipfsLink]="eventData.ipfsLink!"
     [sector]="selectedSector">
 
     </app-standard-ticket>

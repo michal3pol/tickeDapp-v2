@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NFTStorage } from "nft.storage";
 import { EventData } from 'src/types/event.model';
-import { NftEventMetadata } from 'src/types/nft.model';
+import { NftEventMetadata, NftTicketMetadata } from 'src/types/nft.model';
 import NftMetadataUtil from '../utils/NftMetadataUtil';
 import { Observable } from 'rxjs';
 
@@ -31,12 +31,11 @@ export class NftStorageService {
     } 
 
 
-    let files: File[] = [
-      new File([JSON.stringify(eventData, null, 2)], '0.json')
-    ];
+    let files: File[] = [];
     
     for(let i=0, id=1; i < eventData.sectors.length; i++) {
-      const sector = eventData.sectors[i];
+      let sector = eventData.sectors[i];
+      sector.tokenIds = [];
       
       if(sector.numerableSeats && sector.seatsFrom != undefined) {
         const noSeats = sector.seatsTo - sector.seatsFrom + 1;
@@ -45,22 +44,27 @@ export class NftStorageService {
             this.nftMetadataUtil.createTicketMetadataJson(
               nftEventMetadata, sector, id, sector.seatsFrom + j)
           )
+          sector.tokenIds.push(id);
           id++;
         }
       } else {
         // non numerable tickets
         files.push(this.nftMetadataUtil.createTicketMetadataJson(
           nftEventMetadata,sector, id));
+          sector.tokenIds.push(id);
           id++;
       }
+      eventData.sectors[i] = sector;
     }
+
+    files.push(new File([JSON.stringify(eventData, null, 2)], '0.json'))
 
     const cid = await client.storeDirectory(files);
     return HTTP_PREFIX + cid + IPFS_SUFIX
   }
 
-  getFromStorage(url: string, id: number ){
-    return this.http.get(url + '/' + id + '.json')
+  getNftDataFromStorage(url: string, id: number): Observable<NftTicketMetadata>{
+    return this.http.get<NftTicketMetadata>(url + '/' + id + '.json')
   }
 
   getStorageConcertInfo(url: string): Observable<EventData>{

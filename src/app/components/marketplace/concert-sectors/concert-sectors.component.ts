@@ -16,19 +16,16 @@ import { Observable } from 'rxjs';
 })
 export class ConcertSectorsComponent {
 
-  concertAddress!: string;
-  sectors: Sector[] = [];
-  concertName: string = '';
-  concertDescription: string = '';
-  concertDate!: Date;
-
-  selectedSector!: Sector;
+  selectedSector!: SectorData;
   ticketsMap: Map<number, Ticket> = new Map<number, Ticket>;
   amount = 1;
   selectedStandardTickets: boolean = true;
+
+  eventData!: EventData;
   eventData$: Observable<EventData> = new Observable(observer => {
     if(window.history.state.eventData) {
       observer.next(window.history.state.eventData);
+      this.eventData = window.history.state.eventData;
       observer.complete();
     } else {
       const ipfsQueryParam = this.route.snapshot.queryParamMap.get('ipfs');
@@ -36,6 +33,7 @@ export class ConcertSectorsComponent {
           this.nftStorageService.getStorageConcertInfo(ipfsQueryParam).subscribe(
             data => {
               observer.next(data);
+              this.eventData = data;
               observer.complete();
             }
           );
@@ -58,19 +56,17 @@ export class ConcertSectorsComponent {
    */
   selectSector(index: number) {
     this.selectedStandardTickets = true;
-    // this.selectedSector = this.sectors[index];
+    this.selectedSector = this.eventData.sectors[index];
   }
 
   /**
    * Function that shows dialog with layout  
    */
-  async showLayout(){
-    // @TODO 
-    // const _image = await this.ticked1155Service.getImage(this.concertAddress);
-    // let dialogRef = this.matDialog.open(AudienceLayoutComponent, {
-    //   maxHeight: '80%',
-    //   maxWidth: '80%',
-    //   data: { image: _image }
-    // });
+  showLayout(){
+    let dialogRef = this.matDialog.open(AudienceLayoutComponent, {
+      maxHeight: '80%',
+      maxWidth: '80%',
+      data: { image: this.eventData.image }
+    });
   }
 }
