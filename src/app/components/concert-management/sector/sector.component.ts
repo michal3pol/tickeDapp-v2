@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import EtherUnitConverter from 'src/app/utils/EtherUnitConverter';
 import { SectorData } from 'src/types/event.model';

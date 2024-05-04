@@ -1,8 +1,7 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { BigNumber } from 'ethers';
 import { NftStorageService } from 'src/app/services/nft-storage.service';
 import { EventService } from 'src/app/services/smartcontracts/event.service';
-import { Sector, Ticket } from 'src/types/concert.model';
 import { SectorData } from 'src/types/event.model';
 import { Attribute, NftTicketMetadata, TRAIT_TYPE } from 'src/types/nft.model';
 

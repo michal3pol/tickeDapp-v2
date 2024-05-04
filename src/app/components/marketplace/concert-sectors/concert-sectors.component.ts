@@ -1,7 +1,7 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Sector, Ticket } from 'src/types/concert.model';
+import { ActivatedRoute } from '@angular/router';
+import { Ticket } from 'src/types/concert.model';
 import { AudienceLayoutComponent } from '../audience-layout/audience-layout.component';
 import { EventService } from 'src/app/services/smartcontracts/event.service';
 import { EventData, SectorData } from 'src/types/event.model';
