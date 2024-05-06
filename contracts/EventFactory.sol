@@ -12,6 +12,7 @@ contract EventFactory {
     mapping(address => RateScore) public organizerRateScores;
     mapping(address => mapping(address => bool)) public organizerVoters;
     mapping(EventType => EventInfo[]) public events;
+    mapping(address => address[]) public organizerEvents;
 
     uint256 public ownerFee = 0;
     address payable public ownerAddr;
@@ -30,6 +31,7 @@ contract EventFactory {
         ownerCredits += msg.value;
         Event newEvent =  new Event(payable(msg.sender), _eventIpfsLink, _sectorsName, _sectorsNoPlace, _sectorsNumerable, _sectorsPrice);
         events[_et].push(EventInfo(address(newEvent), _eventIpfsLink));
+        organizerEvents[msg.sender].push(address(newEvent));
     }
 
     function rateOrganizer(address _org, bool _vote) external {        
@@ -65,6 +67,10 @@ contract EventFactory {
 
     function getOrganizerScore(address _org) public view returns(RateScore memory) {
         return organizerRateScores[_org];
+    }
+
+    function getOrganizerEvents(address org) public view returns (address[] memory){
+      return organizerEvents[org];
     }
 
 }

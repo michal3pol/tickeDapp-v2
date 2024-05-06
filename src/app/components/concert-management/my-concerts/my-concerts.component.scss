@@ -7,13 +7,20 @@
 .concert-content {
     padding: 10px;
 }
-.btn-withdraw {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 20px;
+
+.concert-date {
+    float: right;
+    padding: 5px;
 }
 
 .btn-new-date {
     margin-left: 10px;
+}
+
+.description {
+    margin: 10px;
+}
+
+.seat-occupancy{
+    font-size: 2em;
 }

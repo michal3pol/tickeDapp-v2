@@ -72,6 +72,11 @@ export class EventService {
     const contract = await EventService.getContract(address)
     return contract['ipfsLink']()
   }
+  
+  public async getSoldTokenIds(address: string): Promise<number[]> {
+    const contract = await EventService.getContract(address)
+    return contract['getSoldTokenIds']()
+  }
 
   public async setApprovalForAll(address: string, operator: string, approved: boolean) {
     const contract = await EventService.getContract(address, true)

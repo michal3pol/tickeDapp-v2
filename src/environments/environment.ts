@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  contractEventFactoryAddress: "0x4101fb07e98c026a06c137A2817729d30da1b30c",
+  contractEventFactoryAddress: "0xF951645DbDf8051676999F44c26233c7edA7EEC1",
   alchemyApi: "https://eth-sepolia.g.alchemy.com/v2/rmg8QMbnUjFuHvPgiYHSsl653yN5FUMQ",
 };
 

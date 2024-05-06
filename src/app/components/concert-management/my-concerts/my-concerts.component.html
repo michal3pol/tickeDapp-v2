@@ -3,31 +3,35 @@
         Here you can find your concerts:
     </h2>
 
-    <mat-card class="concert" *ngFor="let concert of deployedConcerts">
+    <mat-card class="concert" *ngFor="let event of events">
         <mat-card-header>
-        <mat-card-title>{{concert.name}}</mat-card-title>
-        <mat-card-subtitle>{{concert.contractAddress}}</mat-card-subtitle>
+        <mat-card-title>
+            {{event.name}}
+            <span class="concert-date">
+                <mat-icon>today</mat-icon>
+                {{ event.date | date:'medium' }}
+            </span>
+        </mat-card-title>
+        <mat-card-subtitle>{{event.eventAddress}}</mat-card-subtitle>
         </mat-card-header>
-        <button mat-raised-button color="primary" class="btn-withdraw" (click)="withdraw(concert.contractAddress)">
-            Withdraw
-        </button>
         <mat-card-content class="concert-content">
+            <div>
+                Link to your assets: <a href="{{event.ipfsLink}}">{{ event.ipfsLink }} </a>
+            </div>
+            <div class="description">
+                {{event.description}}
+            </div>
             <mat-card-actions>
-            <button mat-raised-button color="primary" class="btn-log-in" 
-            (click)="mintTickets(concert.contractAddress)"
-            > Mint tickets and publish them! </button>
+                <button mat-raised-button color="primary" class="btn-withdraw" (click)="withdraw(event.eventAddress)">
+                    Withdraw founds
+                </button>
+                <button mat-button color="primary" class="btn-occupancy" (click)="checkOccupancy(event.eventAddress, event.sectors)">
+                    Check seat occupancy
+                </button>
+                <ng-container *ngIf="seatOccupancyMap.has(event.eventAddress!)" class="seat-occupancy">
+                    {{seatOccupancyMap.get(event.eventAddress!)}} %
+                </ng-container>            
             </mat-card-actions>
-        <div>
-            Change event date:
-        </div>
-        <div>
-            <mat-form-field appearance="fill"
-                class="form-full-width"
-            >
-                <mat-label>New date</mat-label>
-                <input matInput type="datetime-local" placeholder="Concert date" [(ngModel)]="newDate">
-            </mat-form-field>
-        </div>
         </mat-card-content>
     </mat-card>
 </div>
