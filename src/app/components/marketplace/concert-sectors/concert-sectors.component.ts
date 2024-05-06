@@ -32,8 +32,16 @@ export class ConcertSectorsComponent {
         if (ipfsQueryParam) {
           this.nftStorageService.getStorageConcertInfo(ipfsQueryParam).subscribe(
             data => {
-              observer.next(data);
-              this.eventData = data;
+              observer.next({
+                ...data,
+                eventAddress: this.route.snapshot.paramMap.get('address')!,
+                ipfsLink: ipfsQueryParam
+              });
+              this.eventData = {
+                ...data,
+                eventAddress: this.route.snapshot.paramMap.get('address')!,
+                ipfsLink: ipfsQueryParam
+              };
               observer.complete();
             }
           );

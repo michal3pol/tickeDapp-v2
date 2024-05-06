@@ -1,4 +1,5 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ActivatedRoute, Route } from '@angular/router';
 import { BigNumber } from 'ethers';
 import { NftStorageService } from 'src/app/services/nft-storage.service';
 import { EventService } from 'src/app/services/smartcontracts/event.service';
@@ -24,7 +25,8 @@ export class StandardTicketComponent implements OnChanges {
 
   constructor(
     private eventService: EventService,
-    private nftStorageService: NftStorageService
+    private nftStorageService: NftStorageService,
+    private route: ActivatedRoute
   ) { }
   
   async ngOnChanges(changes: SimpleChanges) {
@@ -36,6 +38,7 @@ export class StandardTicketComponent implements OnChanges {
     this.tickets = [];
     // @TODO somehow handle available tickets
     // dodac metode w smartcontracie co zapisuje sprzedane bilety, a pozniej tylko odflitorwac 
+    // dodac nazwe smartcontractu + mape org address - jego koncerty
     const availableTickets: number[] = this.sector.tokenIds!; 
     // this.validateAvailability(
     //   changes['sector'].currentValue.availableTokenIds, 

@@ -44,7 +44,7 @@ export class EventFactoryService {
   }
 
   public async rateOrganizer(orgAddress: string, vote: boolean) {
-    const contract = await EventFactoryService.getContract()
+    const contract = await EventFactoryService.getContract(true)
     contract['rateOrganizer'](orgAddress, vote)
   }
 
