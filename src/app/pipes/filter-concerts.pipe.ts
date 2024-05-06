@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { DepConcert } from 'src/types/concert.model';
+import { EventData, EventInfo } from 'src/types/event.model';
 
 @Pipe({
   name: 'filterConcerts',
@@ -14,7 +14,7 @@ export class FilterConcertsPipe implements PipeTransform {
    * @returns Filtered concerts
    *
    */
-  transform(concerts: DepConcert[], searchText: string): DepConcert[] {
+  transform(concerts: EventData[], searchText: string): EventData[] {
     if (!concerts) {
       return [];
     }

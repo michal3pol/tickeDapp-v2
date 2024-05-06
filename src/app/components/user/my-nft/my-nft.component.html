@@ -33,16 +33,10 @@
                                     <ng-container *ngIf="attr.value === 0 else numerated">
                                         Not numerated
                                     </ng-container>
-                                    <ng-template #numerated> Seat: {{ attr.value }}</ng-template>
+                                        <ng-template #numerated> Seat: {{ attr.value }}</ng-template>
                                     </ng-container>
-                                    </ng-container>
+                                </ng-container>
                         </div>
-                        <mat-card-actions> 
-                            <button mat-button
-                            (click)="sellTicket(nft)">
-                                Create offer
-                            </button>   
-                        </mat-card-actions>
                     </mat-card-content>
                 </mat-card>
             </ng-container>            

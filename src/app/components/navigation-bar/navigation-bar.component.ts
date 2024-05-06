@@ -65,13 +65,4 @@ export class NavigationBarComponent {
     this.router.navigate(navigationDetails);
   }
 
-  /**
-   * Function that redirects to my-offers page
-   *
-   */
-  goToMyOffers() {
-    const navigationDetails: string[] = ['/my-offers'];
-    this.router.navigate(navigationDetails);
-  }
-
 }

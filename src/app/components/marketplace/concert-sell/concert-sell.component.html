@@ -23,7 +23,7 @@
     </div>
     
     <div class="concert-container">
-        <mat-card class="concert" *ngFor="let event of events" (click)="goToEvent(event)">
+        <mat-card class="concert" *ngFor="let event of events | filterConcerts: searchText" (click)="goToEvent(event)">
             <mat-card-header>
                 <mat-card-title>{{event.name}} {{event.date | date:'medium'}} </mat-card-title>
                 <mat-card-subtitle>{{event.eventAddress}}</mat-card-subtitle>
