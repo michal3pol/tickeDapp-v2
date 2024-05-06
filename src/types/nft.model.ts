@@ -33,7 +33,7 @@ export const enum DISPLAY_TYPE {
     NUMBER = 'number'
 }
 
-/// @TODO check for refactor 
+/// Alchemy API data structures
 export interface Contract {
     address: string
 }

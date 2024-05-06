@@ -1,5 +1,5 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { ActivatedRoute, Route } from '@angular/router';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { BigNumber } from 'ethers';
 import { NftStorageService } from 'src/app/services/nft-storage.service';
 import { EventService } from 'src/app/services/smartcontracts/event.service';
@@ -36,15 +36,10 @@ export class StandardTicketComponent implements OnChanges {
     }
 
     this.tickets = [];
-    // @TODO somehow handle available tickets
-    // dodac metode w smartcontracie co zapisuje sprzedane bilety, a pozniej tylko odflitorwac 
-    // dodac nazwe smartcontractu + mape org address - jego koncerty
-    const availableTickets: number[] = this.sector.tokenIds!; 
-    // this.validateAvailability(
-    //   changes['sector'].currentValue.availableTokenIds, 
-    //   await this.ticked1155Service.getSectorSoldIds(
-    //     this.concertAddress, changes['sector'].currentValue.name)
-    //   );
+    const availableTickets: number[] = this.validateAvailability(
+      changes['sector'].currentValue.tokenIds, 
+      await this.eventService.getSoldTokenIds(this.eventAddress)
+      );
 
     for(let tokenId of availableTickets) {
       this.nftStorageService.getNftDataFromStorage(this.ipfsLink, tokenId).subscribe(
@@ -61,12 +56,12 @@ export class StandardTicketComponent implements OnChanges {
    * @returns List of currently available tokens
    * 
    */
-  validateAvailability(allTickets: BigNumber[], soldTickets: BigNumber[]): number[] {
+  validateAvailability(allTickets: number[], soldTickets: number[]): number[] {
       let resultArray: number[] = [];
       for(let ticketId of allTickets){
         // if soldTickets does not contain ticketId -> push
-        if( !soldTickets.some(id => id.toNumber() == ticketId.toNumber())) {
-          resultArray.push(ticketId.toNumber());
+        if( !soldTickets.some(id => id== ticketId)) {
+          resultArray.push(ticketId);
         }
       }
       return resultArray;
