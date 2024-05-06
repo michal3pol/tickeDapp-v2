@@ -3,7 +3,7 @@
 
 const main = async () => {
 
-  // const [owner] = await ethers.getSigners();
+    const [owner] = await ethers.getSigners();
 
     const nftContractFactory = await hre.ethers.getContractFactory('EventFactory');
 
@@ -28,6 +28,8 @@ const main = async () => {
     let eventInfo = await nftContract.getEventsByType(1);
     console.log("event info " + eventInfo);
     console.log("Subcontract address cls" + eventInfo[0].eventAddress);
+
+    let contracts = await nftContract.getOrganizerEvents(owner.address);
 
     // deployed nft smartcontract
     const subcontractFactory = await hre.ethers.getContractFactory('Event');

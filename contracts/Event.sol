@@ -3,7 +3,6 @@
 pragma solidity ^0.8.17;
 
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
-// import "@openzeppelin/contracts/token/ERC1155/utils/ERC1155Holder.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
@@ -20,6 +19,7 @@ contract Event is ERC1155, ReentrancyGuard {
     string public ipfsLink;
 
     mapping(uint256 => uint256) _tokenPrice;
+    uint256 [] public soldTokenIds;
 
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
@@ -58,7 +58,9 @@ contract Event is ERC1155, ReentrancyGuard {
             revert InsufficientFounds();
 
         orgCredits += msg.value;
-
+        if(this.balanceOf(address(this), _tokenId) - _amount == 0) {
+            soldTokenIds.push(_tokenId);
+        }
         this.safeTransferFrom(address(this), msg.sender, _tokenId, _amount, "");
     }
 
@@ -79,5 +81,9 @@ contract Event is ERC1155, ReentrancyGuard {
                 ".json"
             )
         );
+    }
+
+    function getSoldTokenIds() public view returns (uint256[] memory) {
+        return soldTokenIds;
     }
 }
