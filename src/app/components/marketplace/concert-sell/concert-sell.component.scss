@@ -1,4 +1,13 @@
+.events {
+    display: flex;
+}
+
+.type-selection {
+    flex-grow: 1;
+}
+
 .concert-container {
+    flex-grow: 15;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -19,11 +28,12 @@
     float: right;
 }
 
-a {
-    text-decoration: none;
-}
 .search {
     text-align: center;
+}
+
+mat-card {
+    max-height: 150px;
 }
 
 .search-field {

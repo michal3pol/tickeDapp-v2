@@ -12,7 +12,7 @@ import { DepConcert } from 'src/types/concert.model';
 export class MyConcertsComponent implements OnInit {
 
   constructor(
-    private tickedFactoryService: EventFactoryService,
+    private eventFactoryService: EventFactoryService,
     private walletService: WalletService,
     private ticked1155Service: EventService,
   ) { }
@@ -36,18 +36,6 @@ export class MyConcertsComponent implements OnInit {
   public async mintTickets(contractAddress: string) {
     // @TODO remove
     // this.ticked1155Service.createAndMintTickets(contractAddress)
-  }
-
-  /**
-   * Add sectors for specified contract
-   *
-   * @param address - Address of concert contract
-   * @param sectors - list of new sectors
-   * 
-   */
-  addSectors(sectors: string[], address: string) {
-    // @TODO remove
-    // this.ticked1155Service.addSectors(address, sectors)
   }
 
    /**

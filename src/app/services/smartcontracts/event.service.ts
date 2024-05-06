@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-
 import { BigNumber, ethers } from "ethers";
-import { Sector, Ticket } from 'src/types/concert.model';
 import Event from '../../../../artifacts/contracts//Event.sol/Event.json'
 import { WalletService } from '../wallet.service';
 

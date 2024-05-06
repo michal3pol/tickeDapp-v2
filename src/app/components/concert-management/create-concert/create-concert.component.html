@@ -8,15 +8,28 @@
                     class="form-full-width"
                 >
                     <mat-label>Name</mat-label>
-                    <input matInput placeholder="Concert name" formControlName="concertName">
+                    <input matInput placeholder="Event name" formControlName="concertName">
                 </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field>
+                    <mat-label>Event type</mat-label>
+                    <mat-select placeholder="Event name" formControlName="eventType">
+                        <ng-container *ngFor="let enum of eventTypes | keyvalue">
+                            <!-- Filter numerical values of keyvalue (enums were duplicated) -->
+                            <mat-option *ngIf="!enum.value.toFixed" [value]="enum.key">
+                                 {{enum.value}} 
+                              </mat-option>
+                        </ng-container>
+                    </mat-select>
+                  </mat-form-field>
             </div>
             <div>
                 <mat-form-field appearance="fill"
                     class="form-full-width"
                 >
                     <mat-label>Description</mat-label>
-                    <textarea matInput placeholder="Concert description" formControlName="concertDescription" >
+                    <textarea matInput placeholder="Event description" formControlName="concertDescription" >
                     </textarea>
                 </mat-form-field>
             </div>
@@ -34,7 +47,7 @@
                     class="form-full-width"
                 >
                     <mat-label>Date</mat-label>
-                    <input matInput type="datetime-local" placeholder="Concert date" formControlName="concertDate">
+                    <input matInput type="datetime-local" placeholder="Event date" formControlName="concertDate">
                 </mat-form-field>
             </div>
         </form>
@@ -52,11 +65,18 @@
         <button mat-button matStepperPrevious>Back</button>
     </mat-step>
     <mat-step label="Create concert smartcontract!">
+        <div>
+            <mat-form-field appearance="fill"
+                class="form-full-width"
+            >
+                <mat-label>Your IPFS api key:</mat-label>
+                <input matInput placeholder="Ipfs api key" [formControl]="ipfsApiKey">
+            </mat-form-field>
+        </div>
         <mat-icon class="red-icon">warning</mat-icon>
         <div class="info-achtung">
             <b>
                 Make sure that all data provider in previous tabs is correct! <br>
-                Informations cannot be changed in future - except date.
             </b>
         </div>
         <button mat-raised-button color="primary" class="btn-log-in" 

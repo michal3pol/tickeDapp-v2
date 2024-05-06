@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import EtherUnitConverter from 'src/app/utils/EtherUnitConverter';
+import { SectorData } from 'src/types/event.model';
 
 @Component({
   selector: 'app-sector',
@@ -12,7 +13,7 @@ export class SectorComponent {
   // toggle for specifying button at the bottom of comp
   @Input() createConcertForm: boolean = false;
 
-  @Output() sectorsEvent = new EventEmitter<string []>();
+  @Output() sectorsEvent = new EventEmitter<SectorData []>();
 
   form = this.formBuilder.group({
     sectors: this.formBuilder.array([])
@@ -54,20 +55,17 @@ export class SectorComponent {
    * Function that creates structure of information based on provided data in forms
    */
   confirmSectors() {
-    let sectorsArray: string [] =[];
-    for(let sector of this.sectors.value){
-      sectorsArray.push(sector.sectorName)
-      let isNumerableString = sector.isNumerable ? "1" : "0"
-      sectorsArray.push(isNumerableString)
-      sectorsArray.push(sector.seatStart.toString())
-      sectorsArray.push(sector.seatStop.toString())
-      if(sector.isNumerable) {
-        let mintNowString = sector.mintNow ? "1" : "0"
-        sectorsArray.push(mintNowString)
-      } else {
-        sectorsArray.push("0")
-      }
-      sectorsArray.push(EtherUnitConverter.etherToWei(sector.price).toString())
+    let sectorsArray: SectorData [] =[];
+
+    for(let sector of this.sectors.value) {
+        const newSector: SectorData = {
+          name: sector.sectorName,
+          numerableSeats: sector.isNumerable,
+          seatsFrom: parseInt(sector.seatStart),
+          seatsTo: parseInt(sector.seatStop),
+          price: EtherUnitConverter.etherToWei(sector.price).toString()
+        }
+        sectorsArray.push(newSector);
     }
     this.sectorsEvent.emit(sectorsArray);
   }

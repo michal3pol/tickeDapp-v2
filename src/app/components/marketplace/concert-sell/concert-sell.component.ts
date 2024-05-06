@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { NftStorageService } from 'src/app/services/nft-storage.service';
 import { EventFactoryService } from 'src/app/services/smartcontracts/event-factory.service';
-import { DepConcert } from 'src/types/concert.model';
+import { EventData, EventInfo, EventType } from 'src/types/event.model';
 
 @Component({
   selector: 'app-concert-sell',
@@ -11,20 +12,40 @@ import { DepConcert } from 'src/types/concert.model';
 export class ConcertSellComponent implements OnInit {
 
   constructor(
-    private tickedFactoryService: EventFactoryService,
+    private eventFactoryService: EventFactoryService,
     private router: Router,
+    private nftStorageService: NftStorageService
   ) { }
 
-  public concerts: DepConcert[] = [];
-  public concertOrg: string[] = [];
+  public eventsInfo: EventInfo[] = [];
+  public events: EventData[] = [];
   public searchText = '';
+  eventTypes = EventType;
+  selectedType: string[] = ['0'];
 
   async ngOnInit() {
-    // @TODO fetch data properly 
-    // this.concertOrg = await this.tickedFactoryService.getOrganizers();
-    // for (let org of this.concertOrg) {
-    //   this.concerts = this.concerts.concat(await this.tickedFactoryService.getDepContracts(org));
-    // }
+    this.updateData();
+  }
+
+  async onSelectedTypeChange(event: any) {
+    this.updateData();
+  }
+
+  async updateData() {
+    this.eventsInfo = [];
+    this.events = [];
+    this.eventsInfo = await this.eventFactoryService.getEventsByType(Number(this.selectedType[0]));
+    this.eventsInfo.forEach(info => {
+      this.nftStorageService.getStorageConcertInfo(info.descLink).subscribe(
+        ipfsResponse => this.events.push(
+          {
+            ...ipfsResponse,
+            eventAddress: info.eventAddress,
+            ipfsLink: info.descLink
+          }
+        )
+      )
+    })
   }
 
   /**
@@ -33,8 +54,11 @@ export class ConcertSellComponent implements OnInit {
    * @param contractAddress - Address of concert contract 
    * 
    */
-  goToConcert(concertAddress: string) {
-    this.router.navigate(['sell', concertAddress]);
+  goToEvent(event: EventData) {
+    this.router.navigate(['marketplace/sell', event.eventAddress], {
+      queryParams: {ipfs: event.ipfsLink},
+      state: { eventData: event }
+    });
   }
 
 }

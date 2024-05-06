@@ -22,7 +22,7 @@ export class EventFactoryService {
    * @returns Status of transaction
    */
   public async createEventContract( eventType: EventType, ipfsLink: string, sectorsName: string[], sectorsNoPlace: number[], 
-    sectorsNumerable: boolean[], sectorsPrice: number[] ) {
+    sectorsNumerable: boolean[], sectorsPrice: string[] ) {
     
     const contract = await EventFactoryService.getContract(true)
     const transaction = await contract['createEvent'](
@@ -44,7 +44,7 @@ export class EventFactoryService {
   }
 
   public async rateOrganizer(orgAddress: string, vote: boolean) {
-    const contract = await EventFactoryService.getContract()
+    const contract = await EventFactoryService.getContract(true)
     contract['rateOrganizer'](orgAddress, vote)
   }
 
@@ -65,7 +65,7 @@ export class EventFactoryService {
     contract['withdrawOrgCredits']()
   }
 
-  public async getEventsByType(eventType: EventType): Promise<EventInfo> {
+  public async getEventsByType(eventType: number): Promise<EventInfo []> {
     const contract = await EventFactoryService.getContract()
     return contract['getEventsByType'](eventType)
   }

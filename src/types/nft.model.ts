@@ -1,3 +1,39 @@
+export interface NftEventMetadata {
+    name: string
+    description: string
+    image: string
+    date: Date
+}
+
+export interface NftTicketMetadata {
+    description: string;
+    external_url?: string;
+    image: string;
+    name: string;
+    attributes: Attribute[];
+    // above opensea compatible properties, event is optional
+    event?: NftEventMetadata
+}
+export interface Attribute {
+    trait_type: string;
+    value: string | number;
+    display_type?: string;
+}
+
+export enum TRAIT_TYPE {
+    SECTOR = 'Sector',
+    TOKEN_ID = 'Token Id',
+    PRICE = 'Price',
+    SEAT_NO = 'Seat Number',
+    DATE = 'Date'
+}
+
+export const enum DISPLAY_TYPE {
+    DATE = 'date',
+    NUMBER = 'number'
+}
+
+/// @TODO check for refactor 
 export interface Contract {
     address: string
 }
@@ -17,12 +53,6 @@ export interface Metadata {
     description: string
     attributes: Attribute[]
 }
-export interface Attribute {
-    display_type: string
-    trait_type: string
-    value: number
-}
-
 
 export interface NFT {
     contract: Contract

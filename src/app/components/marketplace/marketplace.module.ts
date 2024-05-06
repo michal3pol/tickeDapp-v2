@@ -18,6 +18,9 @@ import { AudienceLayoutComponent } from './audience-layout/audience-layout.compo
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { StandardTicketComponent } from './standard-ticket/standard-ticket.component';
 import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { OrganizerRatingComponent } from './organizer-rating/organizer-rating.component';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -26,6 +29,7 @@ import { MatIconModule } from '@angular/material/icon';
     ConcertSectorsComponent,
     AudienceLayoutComponent,
     StandardTicketComponent,
+    OrganizerRatingComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,6 +42,9 @@ import { MatIconModule } from '@angular/material/icon';
     MatDialogModule,
     MatInputModule,
     MatIconModule,
+    MatListModule,
+    MatExpansionModule,
+    MatButtonModule,
     RouterModule,
     SwiperModule,
     FormsModule,

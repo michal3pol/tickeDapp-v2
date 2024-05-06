@@ -1,0 +1,30 @@
+<mat-expansion-panel class="organizer-rating">
+    <mat-expansion-panel-header>
+        <mat-panel-title>            
+                <b>Organizer Rate</b>
+                <div class="rate-description">
+                    <div class="rate-box">Positive 
+                        <div class="positive rate">
+                            <b>{{this.orgScore.postiveVotes}}</b>     
+                        </div>
+                    </div>
+                     
+                    <div class="rate-box">Negative
+                        <div class="negative rate">
+                            <b>{{this.orgScore.negativeVotes}}</b>
+                        </div>
+                    </div>
+                </div>
+        </mat-panel-title>
+        <mat-panel-description>
+            Org. address: {{this.orgAddress}} 
+        </mat-panel-description>
+    </mat-expansion-panel-header>
+    <button mat-button class="positive" (click)="addVote(true)">
+        Add positive vote
+    </button>
+    <button mat-button class="negative" (click)="addVote(false)">
+        Add negative vote
+    </button>
+    <span class="vote-info"> <mat-icon>info_outline</mat-icon> You can vote only once for specific organizer.</span>
+</mat-expansion-panel>

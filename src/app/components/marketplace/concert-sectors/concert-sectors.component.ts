@@ -1,9 +1,12 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { Sector, Ticket } from 'src/types/concert.model';
+import { Ticket } from 'src/types/concert.model';
 import { AudienceLayoutComponent } from '../audience-layout/audience-layout.component';
 import { EventService } from 'src/app/services/smartcontracts/event.service';
+import { EventData, SectorData } from 'src/types/event.model';
+import { NftStorageService } from 'src/app/services/nft-storage.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-concert-sectors',
@@ -11,35 +14,48 @@ import { EventService } from 'src/app/services/smartcontracts/event.service';
   styleUrls: ['./concert-sectors.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class ConcertSectorsComponent implements OnInit {
+export class ConcertSectorsComponent {
 
-  concertAddress!: string;
-  sectors: Sector[] = [];
-  concertName: string = '';
-  concertDescription: string = '';
-  concertDate!: number;
-
-  selectedSector!: Sector;
+  selectedSector!: SectorData;
   ticketsMap: Map<number, Ticket> = new Map<number, Ticket>;
   amount = 1;
   selectedStandardTickets: boolean = true;
 
+  eventData!: EventData;
+  eventData$: Observable<EventData> = new Observable(observer => {
+    if(window.history.state.eventData) {
+      observer.next(window.history.state.eventData);
+      this.eventData = window.history.state.eventData;
+      observer.complete();
+    } else {
+      const ipfsQueryParam = this.route.snapshot.queryParamMap.get('ipfs');
+        if (ipfsQueryParam) {
+          this.nftStorageService.getStorageConcertInfo(ipfsQueryParam).subscribe(
+            data => {
+              observer.next({
+                ...data,
+                eventAddress: this.route.snapshot.paramMap.get('address')!,
+                ipfsLink: ipfsQueryParam
+              });
+              this.eventData = {
+                ...data,
+                eventAddress: this.route.snapshot.paramMap.get('address')!,
+                ipfsLink: ipfsQueryParam
+              };
+              observer.complete();
+            }
+          );
+        }
+    }
+  }) 
+
   constructor(
-    private route: ActivatedRoute,
-    private ticked1155Service: EventService,
+    private eventService: EventService,
     private matDialog: MatDialog,
+    private route: ActivatedRoute,
+    private nftStorageService: NftStorageService
   ) { }
 
-
-  async ngOnInit() {
-    this.concertAddress = this.route.snapshot.paramMap.get('address')!;
-
-    // @TODO refactor with ipfs data
-    // this.sectors = await this.ticked1155Service.getSectors(this.concertAddress);
-    // this.concertName = await this.ticked1155Service.getName(this.concertAddress);
-    // this.concertDescription = await this.ticked1155Service.getDescription(this.concertAddress);
-    // this.concertDate = await this.ticked1155Service.getDate(this.concertAddress);
-  }
 
   /**
    * Function that changes currently chosen sector 
@@ -48,28 +64,17 @@ export class ConcertSectorsComponent implements OnInit {
    */
   selectSector(index: number) {
     this.selectedStandardTickets = true;
-    this.selectedSector = this.sectors[index];
+    this.selectedSector = this.eventData.sectors[index];
   }
 
   /**
    * Function that shows dialog with layout  
    */
-  async showLayout(){
-    // @TODO 
-    // const _image = await this.ticked1155Service.getImage(this.concertAddress);
-    // let dialogRef = this.matDialog.open(AudienceLayoutComponent, {
-    //   maxHeight: '80%',
-    //   maxWidth: '80%',
-    //   data: { image: _image }
-    // });
+  showLayout(){
+    let dialogRef = this.matDialog.open(AudienceLayoutComponent, {
+      maxHeight: '80%',
+      maxWidth: '80%',
+      data: { image: this.eventData.image }
+    });
   }
-
-  // resells
-  /**
-   * Function that toggles for resellers offers  
-   */
-  resellersOffers() {
-    this.selectedStandardTickets = false;
-  }
-
 }

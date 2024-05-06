@@ -1,46 +1,56 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ActivatedRoute, Route } from '@angular/router';
 import { BigNumber } from 'ethers';
+import { NftStorageService } from 'src/app/services/nft-storage.service';
 import { EventService } from 'src/app/services/smartcontracts/event.service';
-import { Sector, Ticket } from 'src/types/concert.model';
+import { SectorData } from 'src/types/event.model';
+import { Attribute, NftTicketMetadata, TRAIT_TYPE } from 'src/types/nft.model';
 
 @Component({
   selector: 'app-standard-ticket',
   templateUrl: './standard-ticket.component.html',
-  styleUrls: ['./standard-ticket.component.scss']
+  styleUrls: ['./standard-ticket.component.scss'],
 })
 export class StandardTicketComponent implements OnChanges {
 
-  @Input() concertAddress!: string;
-  @Input() sector!: Sector;
+  @Input() eventAddress!: string;
+  @Input() ipfsLink!: string;
+  @Input() sector!: SectorData;
   // map - ticketId -> tickerAttr
-  ticketsMap: Map<number, Ticket> = new Map<number, Ticket>;
+  tickets: NftTicketMetadata [] = [];
   amount = 1;
 
+  public TRAIT_TYPE = TRAIT_TYPE;
+
+
   constructor(
-    private ticked1155Service: EventService,
+    private eventService: EventService,
+    private nftStorageService: NftStorageService,
+    private route: ActivatedRoute
   ) { }
   
   async ngOnChanges(changes: SimpleChanges) {
     if(changes['sector'].currentValue == undefined || 
-              this.concertAddress == undefined ){
+              this.eventAddress == undefined ){
       return
     }
 
-    this.ticketsMap.clear();
-    // @TODO
-    // const availableTickets: number[] = this.validateAvailability(
+    this.tickets = [];
+    // @TODO somehow handle available tickets
+    // dodac metode w smartcontracie co zapisuje sprzedane bilety, a pozniej tylko odflitorwac 
+    // dodac nazwe smartcontractu + mape org address - jego koncerty
+    const availableTickets: number[] = this.sector.tokenIds!; 
+    // this.validateAvailability(
     //   changes['sector'].currentValue.availableTokenIds, 
     //   await this.ticked1155Service.getSectorSoldIds(
     //     this.concertAddress, changes['sector'].currentValue.name)
     //   );
 
-    // for(let tokenId of availableTickets) {
-    //   // DEPRECATED APPROACH: because reading from chain is free I think it's better to make more calls than iterate 
-    //   // in smartcontract through sectors and available id's and deleting them when they are sold (we have to pay for code execution)
-    //   // NEW APPROACH: store sold tickets ids in smartcontract map then use validateAvailability
-    //   const ticket = await this.ticked1155Service.getTicketAttr(this.concertAddress, tokenId);
-    //   this.ticketsMap.set(tokenId, ticket)
-    // }
+    for(let tokenId of availableTickets) {
+      this.nftStorageService.getNftDataFromStorage(this.ipfsLink, tokenId).subscribe(
+        ticketData => this.tickets.push(ticketData)
+      ) 
+    }
   }
 
   /**
@@ -70,9 +80,16 @@ export class StandardTicketComponent implements OnChanges {
    * @param amount - Amount of tokens to buy (by default sets to 1)
    * 
    */
-  buyTicket(tokenId: number, price: BigNumber, amount = 1) {
-    this.ticked1155Service.buyTicket(
-      this.concertAddress, tokenId, price, amount)
+  buyTicket(ticket: NftTicketMetadata, amount = 1) {
+    const tokenId = Number(this.getAttributeByTraitType(ticket, TRAIT_TYPE.TOKEN_ID)?.value)
+    const price = BigNumber.from(this.getAttributeByTraitType(ticket, TRAIT_TYPE.PRICE)?.value)
+
+    this.eventService.buyTicket(
+      this.eventAddress, tokenId, price, amount)
+  }
+
+  getAttributeByTraitType(ticket: NftTicketMetadata, traitType: TRAIT_TYPE): Attribute | undefined {
+    return ticket.attributes.find(attribute => attribute.trait_type === traitType);
   }
 
 }

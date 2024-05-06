@@ -13,7 +13,7 @@ export class NavigationBarComponent {
 
   constructor(
     private walletService: WalletService,
-    private tickedFactoryService: EventFactoryService,
+    private eventFactoryService: EventFactoryService,
     private router: Router,
     private snackbarService: SnackbarService,
   ) { }
@@ -36,7 +36,6 @@ export class NavigationBarComponent {
   async goToConcertForm() {
     const navigationDetails: string[] = ['/create-concert'];
     this.router.navigate(navigationDetails);
-    this.snackbarService.error("Access not authorized!")
   }
 
   /**
@@ -46,23 +45,6 @@ export class NavigationBarComponent {
   async goToMyConcerts() {
     const navigationDetails: string[] = ['/my-concerts'];
     this.router.navigate(navigationDetails);
-  }
-
-  /**
-   * Function that redirects to admin panel page
-   *
-   */
-  async goToAdminPanel() {
-    const isOwner: boolean = await this.tickedFactoryService.validateOwner(
-      await this.walletService.getWalletAddress()
-    )
-    
-    if(isOwner){
-      const navigationDetails: string[] = ['/whitelist'];
-      this.router.navigate(navigationDetails);
-    } else {
-      this.snackbarService.error("Access not authorized!")
-    }
   }
 
   /**
@@ -80,15 +62,6 @@ export class NavigationBarComponent {
    */
   goToMyNfts() {
     const navigationDetails: string[] = ['/my-nft'];
-    this.router.navigate(navigationDetails);
-  }
-
-  /**
-   * Function that redirects to my-offers page
-   *
-   */
-  goToMyOffers() {
-    const navigationDetails: string[] = ['/my-offers'];
     this.router.navigate(navigationDetails);
   }
 
