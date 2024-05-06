@@ -75,6 +75,11 @@ export class EventFactoryService {
     return contract['getOrganizerScore'](address)
   }
 
+  public async getOrganizerEvents(address: string): Promise<string[]> {
+    const contract = await EventFactoryService.getContract()
+    return contract['getOrganizerEvents'](address)
+  }
+
   private static async getContract(bySigner= false) {
     const provider = new ethers.providers.Web3Provider(<any>window.ethereum)
     const signer = provider.getSigner()
