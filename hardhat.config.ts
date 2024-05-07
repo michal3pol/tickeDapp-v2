@@ -29,6 +29,10 @@ const config: HardhatUserConfig = {
       url: process.env['SEPOLIA_API_KEY_URL'],
       accounts: [process.env['WALLET_PRIVATE_KEY']!],
     },
+    zkEVM: {
+      url: "ZK_API_KEY_URL",
+      accounts: ["ZK_WALLET_PRIVATE_KEY"],
+    },
     hardhat: {
       blockGasLimit: 10000000000,
     },
