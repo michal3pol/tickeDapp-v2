@@ -17,21 +17,13 @@ const config: HardhatUserConfig = {
     },
   },
   networks: {
-    // goerli: {
-    //   url: process.env['QUICKNODE_API_KEY_URL'],
-    //   accounts: [process.env['WALLET_PRIVATE_KEY']!],
-    // },
-    // matic: {
-    //   url: process.env['ALCHEMY_MUMBAI_API_KEY'],
-    //   accounts: [process.env['WALLET_PRIVATE_KEY']!],
-    // },
     sepolia: {
       url: process.env['SEPOLIA_API_KEY_URL'],
       accounts: [process.env['WALLET_PRIVATE_KEY']!],
     },
     zkEVM: {
-      url: "ZK_API_KEY_URL",
-      accounts: ["ZK_WALLET_PRIVATE_KEY"],
+      url: process.env["ZK_API_KEY_URL"],
+      accounts: [process.env['ZK_WALLET_PRIVATE_KEY']!],
     },
     hardhat: {
       blockGasLimit: 10000000000,
