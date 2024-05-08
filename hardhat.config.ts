@@ -16,6 +16,30 @@ const config: HardhatUserConfig = {
       },
     },
   },
+  // defaultNetwork: "neondevnet",
+    etherscan: {
+        apiKey: {
+            neonevm: "test"
+        },
+        customChains: [
+            {
+                network: "neonevm",
+                chainId: 245022926,
+                urls: {
+                    apiURL: "https://devnet-api.neonscan.org/hardhat/verify",
+                    browserURL: "https://devnet.neonscan.org"
+                }
+            },
+            {
+                network: "neonevm",
+                chainId: 245022934,
+                urls: {
+                    apiURL: "https://api.neonscan.org/hardhat/verify",
+                    browserURL: "https://neonscan.org"
+                }
+            }
+        ]
+    },
   networks: {
     sepolia: {
       url: process.env['SEPOLIA_API_KEY_URL'],
@@ -25,6 +49,11 @@ const config: HardhatUserConfig = {
       url: process.env["ZK_API_KEY_URL"],
       accounts: [process.env['ZK_WALLET_PRIVATE_KEY']!],
     },
+    neondevnet: {
+      url: "https://devnet.neonevm.org",
+      accounts: [process.env["NEON_WALLET_PRIVATE_KEY"]!],
+      chainId: 245022926
+  },
     hardhat: {
       blockGasLimit: 10000000000,
     },
