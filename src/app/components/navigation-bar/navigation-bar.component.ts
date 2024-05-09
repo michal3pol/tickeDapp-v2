@@ -25,7 +25,7 @@ export class NavigationBarComponent {
   async connectWallet() {
     let isLogged = await this.walletService.logIn();
     if(isLogged){
-      this.snackbarService.info("You are already connected")
+      this.snackbarService.success("You are already connected")
     }
   }
 

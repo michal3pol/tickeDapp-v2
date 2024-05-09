@@ -12,17 +12,21 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     font-size: 1.2em;
     color: white;
   }
+
+  .mat-snack-bar-container {
+    border-radius: 20px !important;
+  }
   
   .snackbar-error {
     background-color: red;
   }
   
   .snackbar-success {
-    background-color: green;
+    background-color: rgba(0, 128, 0, 0.8);
   }
   
   .snackbar-info {
-    background-color: blue;
+    background-color: rgba(0, 0, 255, 0.8);
   }
 
   .snackbar-pulsing {
