@@ -21,6 +21,19 @@ export class SnackbarService {
   }
 
   /**
+   * Function displays error snackbar
+   * 
+   * @returns error snackbar
+   * 
+   */
+    errorPulsing(message: string) {
+      return this.snackBar.open(message, "Close", {
+        panelClass: ['snackbar-pulsing'],
+        duration: 10000000
+      });
+    }
+
+  /**
    * Function displays success snackbar
    * 
    * @returns success snackbar

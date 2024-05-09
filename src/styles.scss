@@ -22,7 +22,23 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   .snackbar-info {
     background-color: blue;
   }
-  
+
+  .snackbar-pulsing {
+    background-color: red;
+    animation-name: color;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+  }
+  @keyframes color {
+    0%, 100% {
+      background-color: rgba(255, 0, 0, 0.7);
+    }
+    50% {
+      background-color: rgb(255, 0, 0);
+    }
+  }
+
+
 .mat-button {
   background-color: rgb(240, 240, 240);
   margin: 5px !important;

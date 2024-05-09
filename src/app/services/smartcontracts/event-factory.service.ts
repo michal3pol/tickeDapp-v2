@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ethers } from "ethers";
-import { environment } from 'src/environments/environment';
 import EventFactory from '../../../../artifacts/contracts/EventFactory.sol/EventFactory.json'
 import { EventInfo, EventType, RateScore } from 'src/types/event.model';
 import { BlockchainSelectorService } from '../blockchain-selector.service';
@@ -94,6 +93,10 @@ export class EventFactoryService {
     this.blockchainSelectorService.selectedBlockchain$.subscribe(
       blockchain => currentBlockchain = blockchain
     )
+
+    if(currentBlockchain!.chainId != (await provider.getNetwork()).chainId) {
+      this.snackbarService.errorPulsing("Sync your wallet blockchain with site blockchain!")
+    }
 
     return new ethers.Contract(
       currentBlockchain!.contractAddr,
