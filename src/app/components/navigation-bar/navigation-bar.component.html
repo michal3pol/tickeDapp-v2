@@ -1,32 +1,18 @@
 <div class="nav-container">
-    <button mat-raised-button [matMenuTriggerFor]="concerts" color="primary">
-        <mat-icon>perm_data_setting</mat-icon>
-        Concert Management
-    </button>
-
-    <mat-menu #concerts="matMenu">
-        <button mat-menu-item
-        (click)="goToConcertForm()"
-            >
-            <mat-icon>library_add</mat-icon>
-            Create Concert</button>
-        <button mat-menu-item
-        (click)="goToMyConcerts()"
-            >
-            <mat-icon>event</mat-icon>
-            My Concerts</button>
-    </mat-menu>
 
     <button mat-button
-        class="btn-marketplace"
+        class="btn home"
         (click)="goToMarketplace()">
         <mat-icon>home</mat-icon>
-        tickeD MARKETPLACE
+        tickeD
     </button>
 
+    <app-blockchain-selector></app-blockchain-selector>
+
     <button mat-raised-button [matMenuTriggerFor]="myAccount"
+        class="btn menu"
         color="primary">
-        My Account
+        Menu
         <mat-icon>account_circle</mat-icon>
     </button>
 
@@ -36,6 +22,19 @@
         >
         <mat-icon>account_balance_wallet</mat-icon>
         Connect wallet</button>
+
+        <button mat-menu-item
+        (click)="goToConcertForm()"
+            >
+        <mat-icon>library_add</mat-icon>
+        Create Concert</button>
+
+        <button mat-menu-item
+        (click)="goToMyConcerts()"
+        >
+        <mat-icon>event</mat-icon>
+        My Concerts</button>
+
         <button mat-menu-item color="primary"
         (click)="goToMyNfts()"
         >

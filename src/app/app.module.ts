@@ -18,6 +18,7 @@ import { MarketplaceModule } from './components/marketplace/marketplace.module';
 import { HttpClientModule } from '@angular/common/http';
 import { MatIconModule } from '@angular/material/icon';
 import { UserModule } from './components/user/user.module';
+import { BlockchainSelectorModule } from './components/blockchain-selector/blockchain-selector.module';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { UserModule } from './components/user/user.module';
     // custom
     ConcertManagementModule,
     MarketplaceModule,
-    UserModule
+    UserModule,
+    BlockchainSelectorModule
   ],
   providers: [
     WalletService
