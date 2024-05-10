@@ -19,6 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatIconModule } from '@angular/material/icon';
 import { UserModule } from './components/user/user.module';
 import { BlockchainSelectorModule } from './components/blockchain-selector/blockchain-selector.module';
+import { AdminModule } from './components/admin/admin.module';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { BlockchainSelectorModule } from './components/blockchain-selector/block
     ConcertManagementModule,
     MarketplaceModule,
     UserModule,
-    BlockchainSelectorModule
+    BlockchainSelectorModule,
+    AdminModule
   ],
   providers: [
     WalletService

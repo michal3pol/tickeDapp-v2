@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import EventFactory from '../../../../artifacts/contracts/EventFactory.sol/EventFactory.json'
 import { EventInfo, EventType, RateScore } from 'src/types/event.model';
 import { BlockchainSelectorService } from '../blockchain-selector.service';
@@ -30,8 +30,12 @@ export class EventFactoryService {
     sectorsNumerable: boolean[], sectorsPrice: string[] ) {
     
     const contract = await this.getContract(true)
+    const fee = await this.getOwnerFee();
+
     const transaction = await contract['createEvent'](
-      eventType, ipfsLink, sectorsName, sectorsNoPlace, sectorsNumerable, sectorsPrice)
+      eventType, ipfsLink, sectorsName, sectorsNoPlace, sectorsNumerable, sectorsPrice, {
+        value: ethers.utils.parseUnits((fee).toString(), "wei")
+      })
     const tx = await transaction.wait()
 
     return tx.status === 1
@@ -60,9 +64,14 @@ export class EventFactoryService {
    * @param toggle - Toggle for specifying permissions (true/false)
    * 
    */
-  public async updateOrgFee(newOrgFee: number) {
+  public async updateOrgFee(newOrgFee: BigNumber) {
     const contract = await this.getContract(true)
     contract['updateOrgFee'](newOrgFee)
+  }
+
+  public async getOwnerFee():Promise<number> {
+    const contract = await this.getContract(true)
+    return await contract['ownerFee']()
   }
 
   public async withdrawOrgCredits() {

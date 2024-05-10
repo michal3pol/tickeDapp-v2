@@ -39,7 +39,14 @@
         (click)="goToMyNfts()"
         >
         <mat-icon> local_offer</mat-icon>
-        My NFTs</button>        
+        My NFTs</button>    
+
+        <button mat-menu-item color="primary"
+        [disabled]="!isAdmin"
+        (click)="goToAdminPage()"
+        >
+        <mat-icon>admin_panel_settings</mat-icon>
+        Admin</button>   
     </mat-menu>
 
 </div>
