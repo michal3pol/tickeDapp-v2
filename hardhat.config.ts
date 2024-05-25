@@ -61,6 +61,13 @@ const config: HardhatUserConfig = {
       chainId: 31337,
     },
   },
+  gasReporter: {
+    enabled: true,
+    currency: "PLN",
+    outputFile: "gas-rep.txt",
+    coinmarketcap: process.env['COINMARKET_API_KEY'],
+    token: "MATIC"
+  },
   docgen: { 
     outputDir: "./documentation-solidity"
   } // if necessary to customize config
