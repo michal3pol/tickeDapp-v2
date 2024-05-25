@@ -1,15 +1,20 @@
 import { Injectable } from '@angular/core';
-import { ethers } from "ethers";
-import { environment } from 'src/environments/environment';
+import { BigNumber, ethers } from "ethers";
 import EventFactory from '../../../../artifacts/contracts/EventFactory.sol/EventFactory.json'
 import { EventInfo, EventType, RateScore } from 'src/types/event.model';
+import { BlockchainSelectorService } from '../blockchain-selector.service';
+import { BlockchainSelector } from 'src/types/blockchain-selector.model';
+import { SnackbarService } from '../snackbar.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventFactoryService {
 
-  constructor() { }
+  constructor(
+    protected blockchainSelectorService: BlockchainSelectorService,
+    protected snackbarService: SnackbarService
+  ) { }
 
   /**
    * Function interacts with smartcontract and fires transaction to create new event contract
@@ -24,9 +29,13 @@ export class EventFactoryService {
   public async createEventContract( eventType: EventType, ipfsLink: string, sectorsName: string[], sectorsNoPlace: number[], 
     sectorsNumerable: boolean[], sectorsPrice: string[] ) {
     
-    const contract = await EventFactoryService.getContract(true)
+    const contract = await this.getContract(true)
+    const fee = await this.getOwnerFee();
+
     const transaction = await contract['createEvent'](
-      eventType, ipfsLink, sectorsName, sectorsNoPlace, sectorsNumerable, sectorsPrice)
+      eventType, ipfsLink, sectorsName, sectorsNoPlace, sectorsNumerable, sectorsPrice, {
+        value: ethers.utils.parseUnits((fee).toString(), "wei")
+      })
     const tx = await transaction.wait()
 
     return tx.status === 1
@@ -39,12 +48,12 @@ export class EventFactoryService {
    * 
    */
   public async validateOwner(address: string): Promise<boolean> {
-    const contract = await EventFactoryService.getContract()
+    const contract = await this.getContract()
     return address === await contract['ownerAddr']()
   }
 
   public async rateOrganizer(orgAddress: string, vote: boolean) {
-    const contract = await EventFactoryService.getContract(true)
+    const contract = await this.getContract(true)
     contract['rateOrganizer'](orgAddress, vote)
   }
 
@@ -55,40 +64,54 @@ export class EventFactoryService {
    * @param toggle - Toggle for specifying permissions (true/false)
    * 
    */
-  public async updateOrgFee(newOrgFee: number) {
-    const contract = await EventFactoryService.getContract(true)
+  public async updateOrgFee(newOrgFee: BigNumber) {
+    const contract = await this.getContract(true)
     contract['updateOrgFee'](newOrgFee)
   }
 
+  public async getOwnerFee():Promise<number> {
+    const contract = await this.getContract(true)
+    return await contract['ownerFee']()
+  }
+
   public async withdrawOrgCredits() {
-    const contract = await EventFactoryService.getContract(true)
+    const contract = await this.getContract(true)
     contract['withdrawOrgCredits']()
   }
 
   public async getEventsByType(eventType: number): Promise<EventInfo []> {
-    const contract = await EventFactoryService.getContract()
+    const contract = await this.getContract()
     return contract['getEventsByType'](eventType)
   }
 
   public async getOrganizerScore(address: string): Promise<RateScore> {
-    const contract = await EventFactoryService.getContract()
+    const contract = await this.getContract()
     return contract['getOrganizerScore'](address)
   }
 
   public async getOrganizerEvents(address: string): Promise<string[]> {
-    const contract = await EventFactoryService.getContract()
+    const contract = await this.getContract()
     return contract['getOrganizerEvents'](address)
   }
 
-  private static async getContract(bySigner= false) {
-    const provider = new ethers.providers.Web3Provider(<any>window.ethereum)
-    const signer = provider.getSigner()
+  private async getContract(bySigner= false) {
+    const provider = new ethers.providers.Web3Provider(<any>window.ethereum);
+    const signer = provider.getSigner();
+
+    let currentBlockchain: BlockchainSelector;
+    this.blockchainSelectorService.selectedBlockchain$.subscribe(
+      blockchain => currentBlockchain = blockchain
+    )
+
+    if(currentBlockchain!.chainId != (await provider.getNetwork()).chainId) {
+      this.snackbarService.errorPulsing("Sync your wallet blockchain with site blockchain!")
+    }
 
     return new ethers.Contract(
-      environment.contractEventFactoryAddress,
+      currentBlockchain!.contractAddr,
       EventFactory.abi,
       bySigner ? signer : provider
-    )
+    );
   }
 
 }

@@ -8,6 +8,7 @@ import { MarketplaceComponent } from './components/marketplace/marketplace-comp/
 import { ConcertSellComponent } from './components/marketplace/concert-sell/concert-sell.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { MyNftComponent } from './components/user/my-nft/my-nft.component';
+import { OrganizerFeeComponent } from './components/admin/organizer-fee/organizer-fee.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/marketplace/sell', pathMatch: 'full' },
@@ -26,6 +27,7 @@ const routes: Routes = [
   { path: 'create-concert', component: CreateConcertComponent },
   { path: 'my-concerts', component: MyConcertsComponent },
   { path: 'my-nft', component: MyNftComponent },
+  { path: 'admin-org-fee', component: OrganizerFeeComponent },
   { path: '**', component:  PageNotFoundComponent },
 ];
 

@@ -23,20 +23,22 @@ const main = async () => {
     sectorsPrice = [500, 111];
 
     let txn = await nftContract.createEvent(1, "ipfsLINK.blabla", sectorsName, sectorsNoPlace, sectorsNumerable, sectorsPrice);
-    await txn.wait();
-    
-    let eventInfo = await nftContract.getEventsByType(1);
-    console.log("event info " + eventInfo);
-    console.log("Subcontract address cls" + eventInfo[0].eventAddress);
+    const receipt = await txn.wait();
+    console.log(receipt.gasUsed)
 
-    let contracts = await nftContract.getOrganizerEvents(owner.address);
 
-    // deployed nft smartcontract
-    const subcontractFactory = await hre.ethers.getContractFactory('Event');
+    // let eventInfo = await nftContract.getEventsByType(1);
+    // console.log("event info " + eventInfo);
+    // console.log("Subcontract address cls" + eventInfo[0].eventAddress);
 
-    const subcontract = await subcontractFactory.attach(eventInfo[0].eventAddress);
-    let uri0 = await subcontract.uri(0);
-    console.log(uri0)
+    // let contracts = await nftContract.getOrganizerEvents(owner.address);
+
+    // // deployed nft smartcontract
+    // const subcontractFactory = await hre.ethers.getContractFactory('Event');
+
+    // const subcontract = await subcontractFactory.attach(eventInfo[0].eventAddress);
+    // let uri0 = await subcontract.uri(0);
+    // console.log(uri0)
 
   };
 

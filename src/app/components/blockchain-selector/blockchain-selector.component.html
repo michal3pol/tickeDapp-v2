@@ -1,0 +1,9 @@
+<mat-form-field>
+    <mat-label>Blockchain</mat-label>
+    <mat-select [(value)]="blockchainSelect"
+        (selectionChange)="changeBlockchain($event)">
+        <ng-container *ngFor="let blockchain of blockchainOptions">
+            <mat-option [value]="blockchain"> {{blockchain.name}}</mat-option>
+        </ng-container>
+    </mat-select>
+</mat-form-field>

@@ -15,6 +15,7 @@ import {MatStepperModule} from '@angular/material/stepper';
 import { SectorComponent } from './sector/sector.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
     MatIconModule,
     FormsModule,
     ReactiveFormsModule,
+    PipesModule
   ],
   providers: [
     {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 3000,

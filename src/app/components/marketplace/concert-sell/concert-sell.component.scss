@@ -36,6 +36,22 @@ mat-card {
     max-height: 150px;
 }
 
+mat-selection-list {
+    max-width: 115px;
+}
+
+mat-list-option:hover {
+    color: #00838F;
+    background: white;
+}
+
+.mat-list-single-selected-option{
+    background: white;
+    color: #00838F;
+    text-decoration: underline 6px;
+    text-decoration-color: #00838F;
+}
+
 .search-field {
     width: 80%;
 

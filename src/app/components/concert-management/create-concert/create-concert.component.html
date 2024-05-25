@@ -12,7 +12,7 @@
                 </mat-form-field>
             </div>
             <div>
-                <mat-form-field>
+                <mat-form-field class="form-full-width">
                     <mat-label>Event type</mat-label>
                     <mat-select placeholder="Event name" formControlName="eventType">
                         <ng-container *ngFor="let enum of eventTypes | keyvalue">
@@ -79,7 +79,12 @@
                 Make sure that all data provider in previous tabs is correct! <br>
             </b>
         </div>
-        <button mat-raised-button color="primary" class="btn-log-in" 
+        <div class="info-achtung">
+            <b>
+                Current fee for owner of contract: {{ ownerFee | weiToEth }} ETH<br>
+            </b>
+        </div>
+        <button mat-raised-button color="primary" class="btn" 
         (click)="createConcert()"
         > Create Contract Concert</button>
     </mat-step>

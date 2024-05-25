@@ -14,6 +14,7 @@ export class CreateConcertComponent implements OnInit {
 
   concertSectors: SectorData [] = [];
   eventTypes = EventType
+  ownerFee: number = 0;
 
   commonInf = this.formBuilder.group({
     concertName: ['', Validators.required],
@@ -32,7 +33,8 @@ export class CreateConcertComponent implements OnInit {
     private snackbarService: SnackbarService
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    this.ownerFee = await this.eventFactoryService.getOwnerFee();
   }
 
   public contractsAddress: string[] = [];

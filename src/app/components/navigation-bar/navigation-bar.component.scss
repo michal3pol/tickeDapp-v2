@@ -1,26 +1,26 @@
-.btn-log-in {
-    float: right;
+.nav-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.btn {
+    max-height: 50px;
+    margin-top: 8px !important;
+    margin-bottom: 0px !important;
+    padding: 5px 20px;
+    border-radius: 30px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 
 .nav-container {
-    display: flex;
-    gap: 10px;
     position: fixed;
     top: 0px;
     width: 100%;
-    z-index: 9990;
+    z-index: 100;
 }
 
-.btn-marketplace {
-    margin: auto;
-    flex-grow: 3;
-    background-color: #683ab72e;
-    position: sticky;
-}
-    
-.btn-marketplace:hover {
-    transform: scale(1.02);
-    background-color: #673AB7;
-    color: white;
-    position: sticky;
+app-blockchain-selector {
+    flex:1;
+    margin-top: 12px;
+    margin-left: 10px;
 }

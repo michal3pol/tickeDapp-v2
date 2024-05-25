@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+// custom angular styles
+@import "./material-theme.scss";
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
@@ -10,19 +12,39 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     font-size: 1.2em;
     color: white;
   }
+
+  .mat-snack-bar-container {
+    border-radius: 20px !important;
+  }
   
   .snackbar-error {
     background-color: red;
   }
   
   .snackbar-success {
-    background-color: green;
+    background-color: rgba(0, 128, 0, 0.8);
   }
   
   .snackbar-info {
-    background-color: blue;
+    background-color: rgba(0, 0, 255, 0.8);
   }
-  
+
+  .snackbar-pulsing {
+    background-color: red;
+    animation-name: color;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+  }
+  @keyframes color {
+    0%, 100% {
+      background-color: rgba(255, 0, 0, 0.7);
+    }
+    50% {
+      background-color: rgb(255, 0, 0);
+    }
+  }
+
+
 .mat-button {
   background-color: rgb(240, 240, 240);
   margin: 5px !important;
@@ -60,5 +82,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   width: 16px !important;
   font-size: 14px;
   vertical-align: middle;
+}
+
+.mat-select-panel-wrap {
+  margin-top: 35px;
 }
 

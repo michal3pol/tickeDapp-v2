@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { EventFactoryService } from 'src/app/services/smartcontracts/event-factory.service';
@@ -7,16 +7,25 @@ import { WalletService } from 'src/app/services/wallet.service';
 @Component({
   selector: 'app-navigation-bar',
   templateUrl: './navigation-bar.component.html',
-  styleUrls: ['./navigation-bar.component.scss']
+  styleUrls: ['./navigation-bar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NavigationBarComponent {
+export class NavigationBarComponent implements OnInit{
 
+  isAdmin: boolean = false;
+  
   constructor(
     private walletService: WalletService,
     private eventFactoryService: EventFactoryService,
     private router: Router,
     private snackbarService: SnackbarService,
-  ) { }
+  ) { 
+  }
+
+  async ngOnInit() {
+    this.isAdmin = await this.eventFactoryService.validateOwner(
+      await this.walletService.getWalletAddress()); 
+}
 
   /**
    * Function that connects wallet
@@ -25,7 +34,7 @@ export class NavigationBarComponent {
   async connectWallet() {
     let isLogged = await this.walletService.logIn();
     if(isLogged){
-      this.snackbarService.info("You are already connected")
+      this.snackbarService.success("You are already connected")
     }
   }
 
@@ -65,4 +74,8 @@ export class NavigationBarComponent {
     this.router.navigate(navigationDetails);
   }
 
+  goToAdminPage() {
+    const navigationDetails: string[] = ['/admin-org-fee'];
+    this.router.navigate(navigationDetails);
+  }
 }

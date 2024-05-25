@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map, switchMap, tap } from 'rxjs';
 import { AlchemyApiService } from 'src/app/services/alchemy-api.service';
+import { BlockchainSelectorService } from 'src/app/services/blockchain-selector.service';
+import { WalletService } from 'src/app/services/wallet.service';
 import { OwnedNFTs } from 'src/types/nft.model';
 
 @Component({
@@ -10,15 +12,22 @@ import { OwnedNFTs } from 'src/types/nft.model';
 })
 export class MyNftComponent implements OnInit {
 
-  nft$: Observable<OwnedNFTs> = new Observable();
+  nft$: Observable<OwnedNFTs | undefined> = new Observable();
   public isMarketplaceApproved: boolean = false;
 
   constructor(
     private alchemyApiService: AlchemyApiService,
+    private blockchainSelectorService: BlockchainSelectorService,
+    private walletService: WalletService
   ) { }
 
   async ngOnInit() {
-    this.nft$ = await (await this.alchemyApiService.getUserNfts())
+    this.nft$ = this.blockchainSelectorService.selectedBlockchain$.pipe(
+      switchMap(async blockchain => {
+        const walletAddres = await this.walletService.getWalletAddress() 
+        return this.alchemyApiService.getUserNfts(blockchain.blockchainAppApi, walletAddres).toPromise()
+      })
+    )
   }
 
 }
