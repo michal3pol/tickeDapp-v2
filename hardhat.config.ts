@@ -41,6 +41,14 @@ const config: HardhatUserConfig = {
         ]
     },
   networks: {
+    eth_mainnet: {
+      url: process.env['ETH_MMAINNET_API_KEY_URL'],
+      accounts: [process.env['WALLET_PRIVATE_KEY']!],    
+    },
+    zk_mainnet: {
+      url: process.env['ZK_MMAINNET_API_KEY_URL'],
+      accounts: [process.env['WALLET_PRIVATE_KEY']!],    
+    },
     sepolia: {
       url: process.env['SEPOLIA_API_KEY_URL'],
       accounts: [process.env['WALLET_PRIVATE_KEY']!],
@@ -53,13 +61,25 @@ const config: HardhatUserConfig = {
       url: "https://devnet.neonevm.org",
       accounts: [process.env["NEON_WALLET_PRIVATE_KEY"]!],
       chainId: 245022926
-  },
+    },
+    neon_mainnet: {
+      url: "https://neon-proxy-mainnet.solana.p2p.org",
+      accounts: [process.env["NEON_WALLET_PRIVATE_KEY"]!],
+      chainId: 245022934
+    },
     hardhat: {
       blockGasLimit: 10000000000,
     },
     localhost: {
       chainId: 31337,
     },
+  },
+  gasReporter: {
+    enabled: true,
+    currency: "PLN",
+    outputFile: "gas-rep.txt",
+    coinmarketcap: process.env['COINMARKET_API_KEY'],
+    token: "MATIC"
   },
   docgen: { 
     outputDir: "./documentation-solidity"
