@@ -6,6 +6,7 @@ import { EventInfo } from 'src/types/event.model';
 
 describe('EventFactory contract', function() {
 
+    // runs once and restores state before each
     async function deployFactoryFixture() {
         const [owner, org, eventGoer] = await ethers.getSigners();
 

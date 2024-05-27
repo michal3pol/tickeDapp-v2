@@ -19,3 +19,5 @@ export const sectorsNoPlace = [25, 25, 25, 25];
 export const sectorsNumerable = [true, true, false, false];
 export const sectorsPrice = [1000000000000000, 1000000000000000, 1000000000000000, 1000000000000000];
 
+export const numberOfNFTs = 50;
+export const numberOfSFTs = 2;
