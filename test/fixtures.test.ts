@@ -8,7 +8,8 @@ export interface RateScoreTest {
 export const enum ErrorMessages {
     AlreadyVoted = "AlreadyVoted",
     OnlyOwner = "OnlyOwner",
-    InsufficientFounds = "InsufficientFounds"
+    InsufficientFounds = "InsufficientFounds",
+    TokenNotAvailable = "TokenNotAvailable"
 } 
 
 // constants

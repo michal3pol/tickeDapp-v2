@@ -75,6 +75,28 @@ describe('EventFactory contract', function() {
             await expect(newBalance.sub(prevBalance)).to.be.greaterThan(0)            
         })
 
+        it('Should zero owner credits after withdraw', async function() {
+            const { eventFactory, owner, org } = await loadFixture(deployFactoryFixture)
+            const newFee = 1000000000000000
+            eventFactory['updateOrgFee'](newFee)
+
+            await eventFactory.connect(org)['createEvent']
+                (testFixtures.eventType, testFixtures.ipfsLink, testFixtures.sectorsName, testFixtures.sectorsNoPlace,
+                    testFixtures.sectorsNumerable, testFixtures.sectorsPrice, 
+                    {
+                        value: ethers.utils.parseUnits(
+                          (1000000000000000).toString(),
+                          'wei'
+                        ),
+                      }
+                )
+            await eventFactory.connect(owner)['withdrawOrgCredits']();
+            const prevBalance = await owner.getBalance();
+            await eventFactory.connect(owner)['withdrawOrgCredits']();
+            const newBalance = await owner.getBalance();
+            await expect(newBalance.sub(prevBalance)).to.be.lessThan(0)            
+        })
+
     })
 
     describe('Rate functionality', function () {
