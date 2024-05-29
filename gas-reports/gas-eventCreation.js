@@ -13,7 +13,7 @@ const main = async () => {
     // Small concert with 20 tickets
     const sectorsNameS = ["blasbdlbdlasdbsaldbsaldbasldyubsalduybasldyasbdlasd", "blasbdlbdlasdbsaldbsaldbasldyubsalduybasldyasbdlasd"];
     const sectorsNoPlaceS = [10, 10];
-    const sectorsNumerableS = [0, 1];
+    const sectorsNumerableS = [false, true];
     const sectorsPriceS = [1000000000000000, 1000000000000000];
 
     // Estimating gas for createEvent method using callStatic
@@ -30,7 +30,7 @@ const main = async () => {
     // Medium concert for 100 tickets
     const sectorsNameM = ["A1", "A2", "A3", "A4"];
     const sectorsNoPlaceM = [25, 25, 25, 25];
-    const sectorsNumerableM = [0, 0, 1, 1];
+    const sectorsNumerableM = [true, true, false, false];
     const sectorsPriceM = [1000000000000000, 1000000000000000, 1000000000000000, 1000000000000000];
 
     // Estimating gas for createEvent method using callStatic
@@ -47,7 +47,7 @@ const main = async () => {
     // Medium2 concert for 500 tickets
     const sectorsNameM2 = ["A1", "A2", "A3"];
     const sectorsNoPlaceM2 = [200, 200, 100];
-    const sectorsNumerableM2 = [0, 0, 1];
+    const sectorsNumerableM2 = [false, false, true];
     const sectorsPriceM2 = [1000000000000000, 1000000000000000, 1000000000000000];
 
     // Estimating gas for createEvent method using callStatic

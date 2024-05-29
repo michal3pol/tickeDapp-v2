@@ -76,10 +76,10 @@ const config: HardhatUserConfig = {
   },
   gasReporter: {
     enabled: true,
-    currency: "PLN",
+    currency: "USD",
     outputFile: "gas-rep.txt",
     coinmarketcap: process.env['COINMARKET_API_KEY'],
-    token: "MATIC"
+    token: "ETH"
   },
   docgen: { 
     outputDir: "./documentation-solidity"
