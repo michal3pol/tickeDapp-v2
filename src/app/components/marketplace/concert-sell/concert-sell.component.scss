@@ -34,6 +34,10 @@
 
 mat-card {
     max-height: 150px;
+    mat-card-content p {
+        max-height: 60px;
+        overflow: auto;
+    }
 }
 
 mat-selection-list {

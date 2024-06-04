@@ -32,7 +32,7 @@
                         Check seat occupancy
                     </button>
                     <ng-container *ngIf="seatOccupancyMap.has(event.eventAddress!)" class="seat-occupancy">
-                        {{seatOccupancyMap.get(event.eventAddress!)}} %
+                        {{seatOccupancyMap.get(event.eventAddress!) | number: '1.2-2' }} % 
                     </ng-container>            
                 </mat-card-actions>
             </mat-card-content>
