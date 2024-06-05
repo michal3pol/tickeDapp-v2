@@ -17,56 +17,7 @@ const config: HardhatUserConfig = {
     },
   },
   // defaultNetwork: "neondevnet",
-    etherscan: {
-        apiKey: {
-            neonevm: "test"
-        },
-        customChains: [
-            {
-                network: "neonevm",
-                chainId: 245022926,
-                urls: {
-                    apiURL: "https://devnet-api.neonscan.org/hardhat/verify",
-                    browserURL: "https://devnet.neonscan.org"
-                }
-            },
-            {
-                network: "neonevm",
-                chainId: 245022934,
-                urls: {
-                    apiURL: "https://api.neonscan.org/hardhat/verify",
-                    browserURL: "https://neonscan.org"
-                }
-            }
-        ]
-    },
   networks: {
-    eth_mainnet: {
-      url: process.env['ETH_MMAINNET_API_KEY_URL'],
-      accounts: [process.env['WALLET_PRIVATE_KEY']!],    
-    },
-    zk_mainnet: {
-      url: process.env['ZK_MMAINNET_API_KEY_URL'],
-      accounts: [process.env['WALLET_PRIVATE_KEY']!],    
-    },
-    sepolia: {
-      url: process.env['SEPOLIA_API_KEY_URL'],
-      accounts: [process.env['WALLET_PRIVATE_KEY']!],
-    },
-    zkEVM: {
-      url: process.env["ZK_API_KEY_URL"],
-      accounts: [process.env['ZK_WALLET_PRIVATE_KEY']!],
-    },
-    neondevnet: {
-      url: "https://devnet.neonevm.org",
-      accounts: [process.env["NEON_WALLET_PRIVATE_KEY"]!],
-      chainId: 245022926
-    },
-    neon_mainnet: {
-      url: "https://neon-proxy-mainnet.solana.p2p.org",
-      accounts: [process.env["NEON_WALLET_PRIVATE_KEY"]!],
-      chainId: 245022934
-    },
     hardhat: {
       blockGasLimit: 10000000000,
     },
